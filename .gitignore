@@ -1,0 +1,19 @@
+# Nix/NixOS
+result
+result-*
+.direnv/
+
+# Secrets (DANGER: never commit decrypted secrets)
+secrets/*.dec
+secrets/*.tmp
+
+# Editor/OS Metadata
+.vscode/
+.idea/
+.DS_Store
+*~
+*.swp
+*.swo
+
+# Backup files
+*.hm-backup

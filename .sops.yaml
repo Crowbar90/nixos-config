@@ -1,0 +1,6 @@
+creation_rules:
+  - path_regex: secrets/.*\.yaml$
+    key_groups:
+      - age:
+          - age18v39xlf5h3gr8nje3a4zlavua8c9nnhp8wmkr2e5p85djdvj3cxsknztq0 # francesco SSH key
+          - age1gt3mhsmdld7sde95695psr8tqg3e80s2ge7zr2a8496pd9duhqyshnsh86 # host SSH key
