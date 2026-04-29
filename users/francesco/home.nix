@@ -39,7 +39,28 @@
       keyboard.xkb.layout = "it";
       touchpad.tap = true;
     };
+
+    hotkey-overlay.skip-at-startup = true;
+
+    binds = {
+      "Mod+T".action.spawn = "kitty";
+      "Mod+O".action.show-hotkey-overlay = [ ];
+      "Mod+D".action.spawn = "fuzzel";
+      "Mod+L".action.spawn = "swaylock"; # blurred-locker
+    };
   };
+
+  programs.kitty.enable = true; # terminal, Super+T
+  programs.fuzzel.enable = true; # launcher, Super+D
+  programs.swaylock.enable = true; # lock, Super+L
+
+  services.mako.enable = true; # notifications
+  services.swayidle.enable = true; # idle
+  services.polkit-gnome.enable = true;
+
+  home.packages = [
+    pkgs.swaybg
+  ];
 
   home.stateVersion = "25.11";
 }
