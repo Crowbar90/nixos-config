@@ -12,7 +12,7 @@
       "Downloads"
       "Pictures"
       ".ssh"
-      ".local/share/keyrings"
+      ".local/share"
       ".config/Code"
       ".config/git"
     ];
@@ -51,6 +51,9 @@
       "Mod+O".action.show-hotkey-overlay = [ ];
       "Mod+D".action.spawn = "fuzzel";
       "Mod+L".action.spawn = "swaylock"; # blurred-locker
+      "Mod+F".action.maximize-column = [ ];
+      "Mod+Shift+F".action.fullscreen-window = [ ];
+      # "Mod+M".action.maximize-window-to-edges = [ ];
     };
 
     spawn-at-startup = [
