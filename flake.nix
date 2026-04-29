@@ -1,60 +1,52 @@
 {
-  description = "Dell XPS13 NixOS Config";
-
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    impermanence.url = "github:nix-community/impermanence";
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    impermanence = {
-      url = "github:nix-community/impermanence";
-    };
-
-    niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    niri.url = "github:sodiboo/niri-flake";
 
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs =
-    {
-      nixpkgs,
-      home-manager,
-      impermanence,
-      niri,
-      sops-nix,
-      ...
-    }@inputs:
-    {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+  outputs = inputs@{ self, nixpkgs, flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+    systems = [ "x86_64-linux" ];
+
+    perSystem = { config, pkgs, ... }: {
+    };
+
+    flake = {
+      nixosConfigurations.xps9343 = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/xps9343
-          impermanence.nixosModules.impermanence
-          home-manager.nixosModules.home-manager
+          inputs.disko.nixosModules.disko
+          ./hosts/xps9343/default.nix
+          ./hosts/xps9343/disks.nix
+
+          inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.francesco = import ./modules/home-manager;
             home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.francesco = import ./users/francesco/home.nix;
           }
-          sops-nix.nixosModules.sops
-          niri.nixosModules.niri
         ];
       };
     };
+  };
 }
