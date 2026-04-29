@@ -1,6 +1,10 @@
 { inputs, pkgs, ... }:
 
 {
+  imports = [
+    inputs.noctalia.homeModules.default
+  ];
+
   home.persistence."/persist" = {
     directories = [
       "Dev"
@@ -61,6 +65,10 @@
   home.packages = [
     pkgs.swaybg
   ];
+
+  programs.noctalia-shell = {
+    enable = true;
+  };
 
   home.stateVersion = "25.11";
 }
