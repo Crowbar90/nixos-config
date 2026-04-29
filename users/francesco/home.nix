@@ -52,6 +52,32 @@
       "Mod+D".action.spawn = "fuzzel";
       "Mod+L".action.spawn = "swaylock"; # blurred-locker
     };
+
+    spawn-at-startup = [
+      {
+        command = [ "noctalia-shell" ];
+      }
+    ];
+
+    window-rules = [
+      {
+        geometry-corner-radius =
+          let
+            r = 4.0;
+          in
+          {
+            top-left = r;
+            top-right = r;
+            bottom-left = r;
+            bottom-right = r;
+          };
+        clip-to-geometry = true;
+      }
+    ];
+
+    debug = {
+      honor-xdg-activation-with-invalid-serial = [ ];
+    };
   };
 
   programs.kitty.enable = true; # terminal, Super+T
