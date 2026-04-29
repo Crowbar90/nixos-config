@@ -91,6 +91,7 @@
   home.packages = [
     pkgs.chromium
     pkgs.swaybg
+    pkgs.xwayland-satellite
   ];
 
   programs.noctalia-shell = {
