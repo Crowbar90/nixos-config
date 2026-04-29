@@ -19,7 +19,7 @@
       "/var/lib/bluetooth"
       "/var/lib/nixos"
       "/var/lib/systemd/coredump"
-      "/etc/NetworkManger/system-connections"
+      "/etc/NetworkManager/system-connections"
     ];
     files = [
       "/etc/machine-id"
