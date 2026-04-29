@@ -10,6 +10,7 @@
       ".ssh"
       ".local/share/keyrings"
       ".config/Code"
+      ".config/git"
     ];
     files = [
       ".bash_history"
