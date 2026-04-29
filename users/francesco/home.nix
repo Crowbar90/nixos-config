@@ -1,6 +1,10 @@
 { inputs, pkgs, ... }:
 
 {
+  imports = [
+    inputs.niri.homeModules.niri
+  ];
+
   home.persistence."/persist" = {
     directories = [
       "Dev"
@@ -31,6 +35,13 @@
     enable = true;
     gitCredentialHelper = {
       enable = true;
+    };
+  };
+
+  programs.niri.settings = {
+    input = {
+      keyboard.xkb.layout = "it";
+      touchpad.tap = true;
     };
   };
 

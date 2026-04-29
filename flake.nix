@@ -15,6 +15,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    niri.url = "github:YaLTeR/niri";
   };
 
   outputs = inputs@{ self, nixpkgs, flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
@@ -30,6 +32,8 @@
           inputs.disko.nixosModules.disko
           ./hosts/xps9343/default.nix
           ./hosts/xps9343/disks.nix
+
+          inputs.niri.nixosModules.niri
 
           inputs.home-manager.nixosModules.home-manager
           {

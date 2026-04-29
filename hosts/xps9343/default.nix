@@ -1,11 +1,11 @@
 { config, pkgs, inputs, ... }:
-
 {
   imports = [
     ./hardware.nix
     ./disks.nix
     ../../modules/core
     inputs.impermanence.nixosModules.impermanence
+    inputs.niri.nixosModules.niri
   ];
 
   networking.hostName = "xps9343";
@@ -27,6 +27,13 @@
   };
 
   hardware.enableRedistributableFirmware = true;
+
+  programs.niri = {
+    enable = true;
+    package = inputs.niri.packages.${pkgs.system}.niri {
+      withXwayland = true;
+    };
+  };
 
   system.stateVersion = "25.11";
 }
