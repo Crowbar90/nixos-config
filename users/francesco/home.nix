@@ -63,7 +63,7 @@
       {
         geometry-corner-radius =
           let
-            r = 4.0;
+            r = 8.0;
           in
           {
             top-left = r;
