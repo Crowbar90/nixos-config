@@ -8,6 +8,11 @@
     inputs.niri.nixosModules.niri
   ];
 
+  nix.settings = {
+    substituters = [ "https://niri.cachix.org" ];
+    trusted-public-keys = [ "niri.cachiz.org-1:Wv0Om607ZpSsdY5Z3jnLMc7sy386XPFpYpSrqP3zX5E=" ];
+  };
+
   networking.hostName = "xps9343";
 
   boot.loader.systemd-boot.enable = true;
@@ -30,10 +35,12 @@
 
   programs.niri = {
     enable = true;
-    package = inputs.niri.packages.${pkgs.system}.niri {
-      withXwayland = true;
-    };
+    #package = inputs.niri.nixosModules.niri.packages.${pkgs.system}.niri.override {
+    #  withXwayland = true;
+    #};
   };
+
+  niri-flake.cache.enable = true;
 
   system.stateVersion = "25.11";
 }

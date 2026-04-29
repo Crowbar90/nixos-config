@@ -1,10 +1,6 @@
 { inputs, pkgs, ... }:
 
 {
-  imports = [
-    inputs.niri.homeModules.niri
-  ];
-
   home.persistence."/persist" = {
     directories = [
       "Dev"
