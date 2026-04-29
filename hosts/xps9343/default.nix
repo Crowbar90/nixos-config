@@ -42,6 +42,14 @@
     #};
   };
 
+  programs.steam = {
+    enable = true;
+  };
+
+  programs.gamemode = {
+    enable = true;
+  };
+
   niri-flake.cache.enable = true;
 
   system.stateVersion = "25.11";
