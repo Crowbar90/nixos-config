@@ -8,6 +8,8 @@
     inputs.niri.nixosModules.niri
   ];
 
+  nixpkgs.config.allowUnfree = true;
+
   nix.settings = {
     substituters = [ "https://niri.cachix.org" ];
     trusted-public-keys = [ "niri.cachiz.org-1:Wv0Om607ZpSsdY5Z3jnLMc7sy386XPFpYpSrqP3zX5E=" ];
