@@ -89,6 +89,7 @@
   services.polkit-gnome.enable = true;
 
   home.packages = [
+    pkgs.chromium
     pkgs.swaybg
   ];
 
