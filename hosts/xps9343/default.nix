@@ -61,5 +61,11 @@
     jack.enable = true;
   };
 
+  nixpkgs.overlays = [
+    (import ../../overlays/ckb-next.nix)
+  ];
+
+  hardware.ckb-next.enable = true;
+
   system.stateVersion = "25.11";
 }
