@@ -33,6 +33,10 @@
     ];
   };
 
+  environment.systemPackages = [
+    inputs.antigravity-nix.packages.x86_64-linux.default
+  ];
+
   hardware.enableRedistributableFirmware = true;
 
   programs.niri = {

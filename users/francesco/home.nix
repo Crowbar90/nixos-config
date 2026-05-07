@@ -91,7 +91,9 @@
   services.polkit-gnome.enable = true;
 
   home.packages = [
+    inputs.antigravity-nix.packages.x86_64-linux.default
     pkgs.chromium
+    pkgs.dotnet-sdk_10
     pkgs.piper
     pkgs.swaybg
     pkgs.xwayland-satellite
