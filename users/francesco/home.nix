@@ -3,7 +3,18 @@
 {
   imports = [
     inputs.noctalia.homeModules.default
+    ../../modules/development
   ];
+
+  modules.development = {
+    enable = true;
+    git = {
+      enable = true;
+      userName = "Francesco Venturoli";
+      userEmail = "f.venturoli@gmail.com";
+    };
+    github.enable = true;
+  };
 
   home.persistence."/persist" = {
     directories = [
@@ -19,23 +30,6 @@
     files = [
       ".bash_history"
     ];
-  };
-
-  programs.git = {
-    enable = true;
-    settings = {
-      user = {
-        name = "Francesco Venturoli";
-        email = "f.venturoli@gmail.com";
-      };
-    };
-  };
-
-  programs.gh = {
-    enable = true;
-    gitCredentialHelper = {
-      enable = true;
-    };
   };
 
   programs.niri.settings = {

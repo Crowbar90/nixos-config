@@ -4,6 +4,8 @@
     ./hardware.nix
     ./disks.nix
     ../../modules/core
+    ../../modules/gaming
+    ../../modules/users/francesco
     inputs.impermanence.nixosModules.impermanence
     inputs.niri.nixosModules.niri
   ];
@@ -46,12 +48,12 @@
     #};
   };
 
-  programs.steam = {
-    enable = true;
-  };
+  modules.users.francesco.enable = true;
 
-  programs.gamemode = {
+  modules.gaming = {
     enable = true;
+    steam.enable = true;
+    gamemode.enable = true;
   };
 
   niri-flake.cache.enable = true;

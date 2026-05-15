@@ -25,10 +25,4 @@
     wget
   ];
 
-  # User
-  users.users.francesco = {
-    isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" ];
-    hashedPassword = "$6$35m44XndUk77Ef6Z$enc0ff47i3K1JQxVAJDwzm.mptOyIufdCmWEUrhqRTPpyZ/14SX5CHVQMKaNVRSLpFuCC/SOT03suW1hkuLl91";    
-  };
 }
