@@ -2,6 +2,7 @@
 {
   imports = [
     ./hardware.nix
+    ../../hardware/graphics/broadwell
     ./disks.nix
     ../../modules/core
     ../../modules/gaming
@@ -9,6 +10,8 @@
     inputs.impermanence.nixosModules.impermanence
     inputs.niri.nixosModules.niri
   ];
+
+  modules.hardware.graphics.broadwell.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
