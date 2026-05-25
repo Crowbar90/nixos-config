@@ -6,12 +6,14 @@
     ./disks.nix
     ../../modules/core
     ../../modules/gaming
+    ../../modules/obs-studio
     ../../modules/users/francesco
     inputs.impermanence.nixosModules.impermanence
     inputs.niri.nixosModules.niri
   ];
 
   modules.hardware.graphics.broadwell.enable = true;
+  modules.obs-studio.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
