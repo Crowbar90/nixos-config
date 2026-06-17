@@ -48,12 +48,13 @@
 
   programs.niri = {
     enable = true;
-    #package = inputs.niri.nixosModules.niri.packages.${pkgs.system}.niri.override {
-    #  withXwayland = true;
-    #};
   };
 
-  modules.users.francesco.enable = true;
+  # Configure Francesco user with xps9343 (laptop) profile
+  modules.users.francesco = {
+    enable = true;
+    profiles = [ "base" "laptop" "development" ];
+  };
 
   modules.gaming = {
     enable = true;
