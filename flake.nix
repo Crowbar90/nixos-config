@@ -48,7 +48,11 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.francesco = import ./users/francesco/home.nix;
+            home-manager.users.francesco = { pkgs, ... }: {
+              imports = [
+                ./modules/home
+              ];
+            };
           }
         ];
       };
