@@ -32,6 +32,16 @@
     ];
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config = {
+      niri = {
+        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      };
+    };
+  };
+
   programs.niri.settings = {
     input = {
       keyboard.xkb.layout = "it";
