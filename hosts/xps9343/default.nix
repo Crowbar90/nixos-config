@@ -5,6 +5,7 @@
     ../../hardware/graphics/broadwell
     ./disks.nix
     ../../modules/core
+    ../../modules/laptop
     ../../modules/gaming
     ../../modules/obs-studio
     ../../modules/users/francesco
