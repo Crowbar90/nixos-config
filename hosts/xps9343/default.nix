@@ -56,6 +56,27 @@
 
   modules.users.francesco.enable = true;
 
+  home-manager.users.francesco = {
+    modules.desktop.niri.enable = true;
+    modules.persistence = {
+      enable = true;
+      path = "/persist";
+    };
+    modules.gaming.enable = true;
+
+    # Host-specific monitor configuration for xps9343
+    programs.niri.settings.outputs = {
+      "eDP-1" = {
+        mode = {
+          width = 1920;
+          height = 1080;
+          refresh = 60.0;
+        };
+        scale = 1.0;
+      };
+    };
+  };
+
   modules.gaming = {
     enable = true;
     steam.enable = true;

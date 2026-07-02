@@ -2,10 +2,13 @@
 
 {
   imports = [
-    inputs.noctalia.homeModules.default
-    ../../modules/development
+    ../../modules/home/development
+    ../../modules/home/persistence.nix
+    ../../modules/home/gaming.nix
+    ../../modules/home/desktop/niri.nix
   ];
 
+  # Common development configurations across all hosts
   modules.development = {
     enable = true;
     git = {
@@ -16,96 +19,13 @@
     github.enable = true;
   };
 
-  home.persistence."/persist" = {
-    directories = [
-      "Dev"
-      "Documents"
-      "Downloads"
-      "Pictures"
-      ".ssh"
-      ".local/share"
-      ".config/Code"
-      ".config/git"
-    ];
-    files = [
-      ".bash_history"
-    ];
-  };
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    config = {
-      niri = {
-        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-      };
-    };
-  };
-
-  programs.niri.settings = {
-    input = {
-      keyboard.xkb.layout = "it";
-      touchpad.tap = true;
-    };
-
-    hotkey-overlay.skip-at-startup = true;
-
-    binds = {
-      "Mod+T".action.spawn = "kitty";
-      "Mod+O".action.show-hotkey-overlay = [ ];
-      "Mod+D".action.spawn = "fuzzel";
-      "Mod+L".action.spawn = "swaylock"; # blurred-locker
-      "Mod+F".action.maximize-column = [ ];
-      "Mod+Shift+F".action.fullscreen-window = [ ];
-    };
-
-    spawn-at-startup = [
-      {
-        command = [ "noctalia-shell" ];
-      }
-    ];
-
-    window-rules = [
-      {
-        geometry-corner-radius =
-          let
-            r = 8.0;
-          in
-          {
-            top-left = r;
-            top-right = r;
-            bottom-left = r;
-            bottom-right = r;
-          };
-        clip-to-geometry = true;
-      }
-    ];
-
-    debug = {
-      honor-xdg-activation-with-invalid-serial = [ ];
-    };
-  };
-
-  programs.kitty.enable = true; # terminal, Super+T
-  programs.fuzzel.enable = true; # launcher, Super+D
-  programs.swaylock.enable = true; # lock, Super+L
-
-  services.mako.enable = true; # notifications
-  services.swayidle.enable = true; # idle
-  services.polkit-gnome.enable = true;
-
+  # Core applications installed for Francesco on all systems
   home.packages = [
     inputs.antigravity-nix.packages.x86_64-linux.default
     pkgs.chromium
     pkgs.dotnet-sdk_10
-    pkgs.piper
-    pkgs.swaybg
-    pkgs.xwayland-satellite
+    pkgs.nixd
   ];
-
-  programs.noctalia-shell = {
-    enable = true;
-  };
 
   home.stateVersion = "25.11";
 }
