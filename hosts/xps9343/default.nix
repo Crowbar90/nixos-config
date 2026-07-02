@@ -68,11 +68,11 @@
     programs.niri.settings.outputs = {
       "eDP-1" = {
         mode = {
-          width = 1920;
-          height = 1080;
+          width = 3200;
+          height = 1800;
           refresh = 60.0;
         };
-        scale = 1.0;
+        scale = 1.5;
       };
     };
   };
@@ -96,6 +96,7 @@
 
   nixpkgs.overlays = [
     (import ../../overlays/ckb-next.nix)
+    (import ../../overlays/openldap.nix)
   ];
 
   hardware.ckb-next.enable = true;
