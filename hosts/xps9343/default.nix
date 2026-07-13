@@ -9,6 +9,7 @@
     ../../modules/obs-studio
     ../../modules/users/francesco
     ../../modules/desktop/niri.nix
+    ../../modules/home/desktop/niri.nix
     inputs.impermanence.nixosModules.impermanence
   ];
 
@@ -16,7 +17,6 @@
   modules.obs-studio.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-
 
   networking.hostName = "xps9343";
 
@@ -68,7 +68,6 @@
       };
     };
   };
-
 
   security.rtkit.enable = true;
   services.pipewire = {

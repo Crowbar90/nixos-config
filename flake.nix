@@ -52,6 +52,23 @@
           }
         ];
       };
+
+      nixosConfigurations.midgar = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          inputs.disko.nixosModules.disko
+          ./hosts/midgar/default.nix
+          ./hosts/midgar/disks.nix
+
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.francesco = import ./users/francesco/home.nix;
+          }
+        ];
+      };
     };
   };
 }
