@@ -25,6 +25,7 @@
     pkgs.chromium
     pkgs.dotnet-sdk_10
     pkgs.nixd
+    pkgs.nixfmt
   ];
 
   modules.gaming = {
