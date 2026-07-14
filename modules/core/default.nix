@@ -3,7 +3,10 @@
 {
   # Nix settings
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     auto-optimise-store = true;
   };
 
@@ -19,10 +22,9 @@
 
   # Tools
   environment.systemPackages = with pkgs; [
-    curl    
+    curl
     git
     vim
     wget
   ];
-
 }

@@ -16,6 +16,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v1.1.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     niri.url = "github:sodiboo/niri-flake";
 
     noctalia = {
@@ -29,29 +34,56 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
-    systems = [ "x86_64-linux" ];
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      flake-parts,
+      ...
+    }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
 
-    perSystem = { config, pkgs, ... }: {
-    };
+      perSystem =
+        { config, pkgs, ... }:
+        {
+        };
 
-    flake = {
-      nixosConfigurations.xps9343 = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          inputs.disko.nixosModules.disko
-          ./hosts/xps9343/default.nix
-          ./hosts/xps9343/disks.nix
+      flake = {
+        nixosConfigurations.xps9343 = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            inputs.disko.nixosModules.disko
+            ./hosts/xps9343/default.nix
+            ./hosts/xps9343/disks.nix
 
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.francesco = import ./users/francesco/home.nix;
-          }
-        ];
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.users.francesco = import ./users/francesco/home.nix;
+            }
+          ];
+        };
+
+        nixosConfigurations.midgar = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            inputs.lanzaboote.nixosModules.lanzaboote
+            inputs.disko.nixosModules.disko
+            ./hosts/midgar/default.nix
+            ./hosts/midgar/disks.nix
+
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.users.francesco = import ./users/francesco/home.nix;
+            }
+          ];
+        };
       };
     };
-  };
 }

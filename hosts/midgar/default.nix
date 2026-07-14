@@ -1,27 +1,30 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+
 {
   imports = [
     ./hardware.nix
-    ../../hardware/graphics/broadwell
+    ../../hardware/graphics/nvidia
     ./disks.nix
     ../../modules/core
-    ../../modules/laptop
-    ../../modules/obs-studio
+    ../../modules/secureboot
     ../../modules/users/francesco
-    ../../modules/desktop/niri.nix
-    ../../modules/home/desktop/niri.nix
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  modules.hardware.graphics.broadwell.enable = true;
-  modules.obs-studio.enable = true;
+  modules.hardware.graphics.nvidia = {
+    enable = true;
+    open = true;
+    useBinaryCache = true;
+  };
 
   nixpkgs.config.allowUnfree = true;
 
-  networking.hostName = "xps9343";
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  networking.hostName = "midgar";
 
   environment.persistence."/persist" = {
     hideMounts = true;
@@ -30,44 +33,35 @@
       "/var/lib/nixos"
       "/var/lib/systemd/coredump"
       "/etc/NetworkManager/system-connections"
+      "/etc/secureboot"
+      "/var/lib/sbctl"
     ];
     files = [
       "/etc/machine-id"
     ];
   };
 
-  environment.systemPackages = [
-    inputs.antigravity-nix.packages.x86_64-linux.default
-  ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   hardware.enableRedistributableFirmware = true;
-
-  modules.desktop.niri = {
-    enable = true;
-    useBinaryCache = true;
-  };
 
   modules.users.francesco.enable = true;
 
   home-manager.users.francesco = {
-    modules.desktop.niri.enable = true;
     modules.persistence = {
       enable = true;
       path = "/persist";
     };
-
-    # Host-specific monitor configuration for xps9343
-    programs.niri.settings.outputs = {
-      "eDP-1" = {
-        mode = {
-          width = 3200;
-          height = 1800;
-          refresh = 60.0;
-        };
-        scale = 1.5;
-      };
-    };
   };
+
+  networking.networkmanager.enable = true;
+
+  services.xserver.enable = true;
+
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
+
+  services.xserver.xkb.layout = "it";
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -85,5 +79,7 @@
 
   hardware.ckb-next.enable = true;
 
-  system.stateVersion = "25.11";
+  programs.nix-ld.enable = true;
+
+  system.stateVersion = "26.05";
 }

@@ -6,7 +6,6 @@
     ../../modules/home/persistence.nix
     ../../modules/home/gaming.nix
     ../../modules/home/photography.nix
-    ../../modules/home/desktop/niri.nix
   ];
 
   # Common development configurations across all hosts
@@ -26,6 +25,7 @@
     pkgs.chromium
     pkgs.dotnet-sdk_10
     pkgs.nixd
+    pkgs.nixfmt
   ];
 
   modules.gaming = {

@@ -24,7 +24,8 @@ in
     home.packages = with pkgs; [
       mangohud
       piper # gaming mouse configuration GUI
-    ] ++ (lib.optionals cfg.steam.enable [ steam ])
+    ]
+      ++ (lib.optionals cfg.steam.enable [ steam ])
       ++ (lib.optionals cfg.heroic.enable [ heroic ]);
 
     programs.mangohud = {
