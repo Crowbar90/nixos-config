@@ -1,14 +1,20 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
-      ./hardware.nix
-      ../../hardware/graphics/nvidia
-      ./disks.nix
-      ../../modules/core
-      ../../modules/users/francesco
+    ./hardware.nix
+    ../../hardware/graphics/nvidia
+    ./disks.nix
+    ../../modules/core
+    ../../modules/secureboot
+    ../../modules/users/francesco
     inputs.impermanence.nixosModules.impermanence
-    ];
+  ];
 
   modules.hardware.graphics.nvidia = {
     enable = true;
@@ -20,11 +26,19 @@
 
   networking.hostName = "midgar";
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-
-    timeout = 5;
+  environment.persistence."/persist" = {
+    hideMounts = true;
+    directories = [
+      "/var/lib/bluetooth"
+      "/var/lib/nixos"
+      "/var/lib/systemd/coredump"
+      "/etc/NetworkManager/system-connections"
+      "/etc/secureboot"
+      "/var/lib/sbctl"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -69,4 +83,3 @@
 
   system.stateVersion = "26.05";
 }
-
