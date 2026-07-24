@@ -79,7 +79,26 @@
 
   hardware.ckb-next.enable = true;
 
+  services.hardware.openrgb = {
+    enable = true;
+    package = pkgs.openrgb-with-all-plugins;
+    motherboard = "amd";
+    server.port = 6742;
+  };
+
   programs.nix-ld.enable = true;
+
+  boot.supportedFilesystems = [ "nfs" ];
+
+  fileSystems."/mnt/tower/francesco" = {
+    device = "192.168.40.2:/mnt/user/francesco";
+    fsType = "nfs";
+    options = [
+      "x-systemd.automount"
+      "noauto"
+      "x-systemd.idle-timeout=600"
+    ];
+  };
 
   system.stateVersion = "26.05";
 }
