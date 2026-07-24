@@ -21,7 +21,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    niri.url = "github:sodiboo/niri-flake";
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
@@ -54,6 +57,11 @@
           specialArgs = { inherit inputs; };
           modules = [
             inputs.disko.nixosModules.disko
+            inputs.niri.nixosModules.niri
+            {
+              nixpkgs.overlays = [ inputs.niri.overlays.niri ];
+            }
+
             ./hosts/xps9343/default.nix
             ./hosts/xps9343/disks.nix
 
@@ -74,6 +82,29 @@
             inputs.disko.nixosModules.disko
             ./hosts/midgar/default.nix
             ./hosts/midgar/disks.nix
+
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.users.francesco = import ./users/francesco/home.nix;
+            }
+          ];
+        };
+
+        nixosConfigurations.latitude7420 = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            inputs.lanzaboote.nixosModules.lanzaboote
+            inputs.disko.nixosModules.disko
+            inputs.niri.nixosModules.niri
+            {
+              nixpkgs.overlays = [ inputs.niri.overlays.niri ];
+            }
+
+            ./hosts/latitude7420/default.nix
+            ./hosts/latitude7420/disks.nix
 
             inputs.home-manager.nixosModules.home-manager
             {
