@@ -2,23 +2,20 @@
 {
   imports = [
     ./hardware.nix
-    ../../hardware/graphics/broadwell
     ./disks.nix
     ../../modules/core
     ../../modules/laptop
     ../../modules/obs-studio
     ../../modules/users/francesco
     ../../modules/desktop/niri.nix
-    ../../modules/home/desktop/niri.nix
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  modules.hardware.graphics.broadwell.enable = true;
   modules.obs-studio.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
-  networking.hostName = "xps9343";
+  networking.hostName = "latitude7420";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -49,22 +46,9 @@
   modules.users.francesco.enable = true;
 
   home-manager.users.francesco = {
-    modules.desktop.niri.enable = true;
     modules.persistence = {
       enable = true;
       path = "/persist";
-    };
-
-    # Host-specific monitor configuration for xps9343
-    programs.niri.settings.outputs = {
-      "eDP-1" = {
-        mode = {
-          width = 3200;
-          height = 1800;
-          refresh = 60.0;
-        };
-        scale = 1.5;
-      };
     };
   };
 
