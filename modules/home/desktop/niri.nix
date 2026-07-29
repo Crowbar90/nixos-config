@@ -42,7 +42,7 @@ in
 
       spawn-at-startup = [
         {
-          command = [ "noctalia-shell" ];
+          command = [ "noctalia" ];
         }
       ];
 
@@ -80,7 +80,7 @@ in
       pkgs.xwayland-satellite
     ];
 
-    programs.noctalia-shell = {
+    programs.noctalia = {
       enable = true;
     };
   };

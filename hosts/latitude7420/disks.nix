@@ -19,7 +19,7 @@
                 format = "vfat";
                 mountpoint = "/boot";
                 mountOptions = [
-                  "default"
+                  "defaults"
                   "umask=0077"
                 ];
               };
