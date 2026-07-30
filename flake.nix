@@ -27,14 +27,24 @@
     };
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:noctalia-dev/noctalia/cachix";
     };
 
     antigravity-nix = {
       url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+  };
+
+  nixConfig = {
+    extra-substituters = [
+      "https://niri.cachix.org"
+      "https://noctalia.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
   };
 
   outputs =
@@ -98,10 +108,10 @@
           modules = [
             inputs.lanzaboote.nixosModules.lanzaboote
             inputs.disko.nixosModules.disko
-            inputs.niri.nixosModules.niri
-            {
-              nixpkgs.overlays = [ inputs.niri.overlays.niri ];
-            }
+            #inputs.niri.nixosModules.niri
+            #{
+            #  nixpkgs.overlays = [ inputs.niri.overlays.niri ];
+            #}
 
             ./hosts/latitude7420/default.nix
             ./hosts/latitude7420/disks.nix
