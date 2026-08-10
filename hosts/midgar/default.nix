@@ -11,6 +11,7 @@
     ../../hardware/graphics/nvidia
     ./disks.nix
     ../../modules/core
+    ../../modules/obs-studio
     ../../modules/secureboot
     ../../modules/users/francesco
     inputs.impermanence.nixosModules.impermanence
@@ -21,6 +22,7 @@
     open = true;
     useBinaryCache = true;
   };
+  modules.obs-studio.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
