@@ -1,29 +1,25 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
-    ../../modules/home/development
+    ../../modules/home/coding
     ../../modules/home/persistence.nix
     ../../modules/home/gaming.nix
     ../../modules/home/photography.nix
   ];
 
-  # Common development configurations across all hosts
-  modules.development = {
+  # Common coding configurations across all hosts
+  modules.coding = {
     enable = true;
     git = {
-      enable = true;
       userName = "Francesco Venturoli";
       userEmail = "f.venturoli@gmail.com";
     };
-    github.enable = true;
   };
 
   # Core applications installed for Francesco on all systems
   home.packages = [
-    inputs.antigravity-nix.packages.x86_64-linux.default
     pkgs.chromium
-    pkgs.dotnet-sdk_10
     pkgs.nixd
     pkgs.nixfmt
   ];

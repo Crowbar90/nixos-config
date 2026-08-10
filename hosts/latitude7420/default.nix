@@ -39,10 +39,6 @@
     ];
   };
 
-  environment.systemPackages = [
-    inputs.antigravity-nix.packages.x86_64-linux.default
-  ];
-
   hardware.enableRedistributableFirmware = true;
 
   programs.niri.enable = true;
@@ -55,6 +51,13 @@
     imports = [
       ../../modules/home/desktop/niri.nix
     ];
+
+    modules.coding = {
+      git.enable = true;
+      github.enable = true;
+      vscodium.enable = true;
+      opencode.enable = true;
+    };
 
     modules.persistence = {
       enable = true;
