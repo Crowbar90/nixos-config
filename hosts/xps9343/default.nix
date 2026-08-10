@@ -36,10 +36,6 @@
     ];
   };
 
-  environment.systemPackages = [
-    inputs.antigravity-nix.packages.x86_64-linux.default
-  ];
-
   hardware.enableRedistributableFirmware = true;
 
   modules.desktop.niri = {
@@ -49,6 +45,11 @@
   modules.users.francesco.enable = true;
 
   home-manager.users.francesco = {
+    modules.coding = {
+      vscodium.enable = true;
+      opencode.enable = true;
+    };
+
     modules.desktop.niri.enable = true;
     modules.persistence = {
       enable = true;

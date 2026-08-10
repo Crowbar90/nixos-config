@@ -50,6 +50,20 @@
   modules.users.francesco.enable = true;
 
   home-manager.users.francesco = {
+    modules.coding = {
+      dotnet.enable = true;
+      antigravity = {
+        enable = true;
+        ide.enable = true;
+        cli.enable = true;
+      };
+      vscodium.enable = true;
+      opencode = {
+        enable = true;
+        desktop.enable = true;
+      };
+    };
+
     modules.persistence = {
       enable = true;
       path = "/persist";

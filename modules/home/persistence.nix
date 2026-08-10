@@ -22,8 +22,10 @@ in
         "Pictures"
         ".ssh"
         ".local/share"
-        ".config/Code"
+        ".config/VSCodium"
+        ".config/opencode"
         ".config/git"
+        ".vscode-oss"
       ];
       files = [
         ".bash_history"
