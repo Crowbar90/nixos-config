@@ -12,11 +12,9 @@
   modules.coding = {
     enable = true;
     git = {
-      enable = true;
       userName = "Francesco Venturoli";
       userEmail = "f.venturoli@gmail.com";
     };
-    github.enable = true;
   };
 
   # Core applications installed for Francesco on all systems

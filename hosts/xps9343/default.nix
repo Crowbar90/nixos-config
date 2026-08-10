@@ -46,6 +46,8 @@
 
   home-manager.users.francesco = {
     modules.coding = {
+      git.enable = true;
+      github.enable = true;
       vscodium.enable = true;
       opencode.enable = true;
     };

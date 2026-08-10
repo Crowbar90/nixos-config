@@ -51,6 +51,8 @@
 
   home-manager.users.francesco = {
     modules.coding = {
+      git.enable = true;
+      github.enable = true;
       dotnet.enable = true;
       antigravity = {
         enable = true;
