@@ -5,6 +5,7 @@
     ../../hardware/graphics/broadwell
     ./disks.nix
     ../../modules/core
+    ../../modules/gaming
     ../../modules/laptop
     ../../modules/obs-studio
     ../../modules/users/francesco
@@ -15,6 +16,12 @@
 
   modules.hardware.graphics.broadwell.enable = true;
   modules.obs-studio.enable = true;
+
+  modules.gaming = {
+    enable = true;
+    steam.enable = true;
+    gamemode.enable = true;
+  };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -43,6 +50,8 @@
   };
 
   modules.users.francesco.enable = true;
+
+  users.users.francesco.extraGroups = [ "gamemode" ];
 
   home-manager.users.francesco = {
     modules.coding = {

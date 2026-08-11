@@ -11,6 +11,7 @@
     ../../hardware/graphics/nvidia
     ./disks.nix
     ../../modules/core
+    ../../modules/gaming
     ../../modules/obs-studio
     ../../modules/secureboot
     ../../modules/users/francesco
@@ -21,6 +22,13 @@
     enable = true;
     open = true;
     useBinaryCache = true;
+  };
+  modules.gaming = {
+    enable = true;
+    steam.enable = true;
+    gamemode.enable = true;
+    hardware.logitech = true;
+    hardware.xbox360 = true;
   };
   modules.obs-studio.enable = true;
 
@@ -49,6 +57,8 @@
 
   modules.users.francesco.enable = true;
 
+  users.users.francesco.extraGroups = [ "gamemode" ];
+
   home-manager.users.francesco = {
     modules.coding = {
       git.enable = true;
@@ -64,6 +74,12 @@
         enable = true;
         desktop.enable = true;
       };
+    };
+
+    modules.gaming = {
+      enable = true;
+      heroic.enable = false;
+      mangohud.enable = true;
     };
 
     modules.persistence = {
