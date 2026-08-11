@@ -4,6 +4,7 @@
     ./hardware.nix
     ./disks.nix
     ../../modules/core
+    ../../modules/gaming
     ../../modules/laptop
     ../../modules/obs-studio
     ../../modules/users/francesco
@@ -13,6 +14,12 @@
   ];
 
   modules.obs-studio.enable = true;
+
+  modules.gaming = {
+    enable = true;
+    steam.enable = true;
+    gamemode.enable = true;
+  };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -46,6 +53,8 @@
   security.polkit.enable = true;
 
   modules.users.francesco.enable = true;
+
+  users.users.francesco.extraGroups = [ "gamemode" ];
 
   home-manager.users.francesco = {
     imports = [

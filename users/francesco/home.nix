@@ -24,13 +24,6 @@
     pkgs.nixfmt
   ];
 
-  modules.gaming = {
-    enable = true;
-    steam.enable = true;
-    heroic.enable = true;
-    gamemode.enable = true;
-  };
-
   modules.photography = {
     enable = true;
     darktable.enable = true;
