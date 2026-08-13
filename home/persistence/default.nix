@@ -1,10 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.modules.persistence;
+  cfg = config.modules.home.persistence;
 in
 {
-  options.modules.persistence = {
+  options.modules.home.persistence = {
     enable = lib.mkEnableOption "impermanence user persistence";
     path = lib.mkOption {
       type = lib.types.str;

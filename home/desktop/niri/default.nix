@@ -1,14 +1,14 @@
 { config, lib, pkgs, inputs, ... }:
 
 let
-  cfg = config.modules.desktop.niri;
+  cfg = config.modules.home.desktop.niri;
 in
 {
   imports = [
     inputs.noctalia.homeModules.default
   ];
 
-  options.modules.desktop.niri = {
+  options.modules.home.desktop.niri = {
     enable = lib.mkEnableOption "Niri window manager + Noctalia shell";
   };
 

@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.modules.gaming;
+  cfg = config.modules.home.gaming;
 in
 {
-  options.modules.gaming = {
+  options.modules.home.gaming = {
     enable = lib.mkEnableOption "user-level gaming configurations and tools";
 
     heroic = {

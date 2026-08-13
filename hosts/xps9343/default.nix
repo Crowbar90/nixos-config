@@ -1,31 +1,19 @@
 { config, pkgs, inputs, ... }:
+
 {
   imports = [
     ./hardware.nix
-    ../../hardware/graphics/broadwell
     ./disks.nix
-    ../../modules/core
-    ../../modules/gaming
     ../../modules/laptop
+    ../../modules/gaming
     ../../modules/obs-studio
-    ../../modules/users/francesco
-    ../../modules/desktop/niri.nix
-    ../../modules/home/desktop/niri.nix
-    inputs.impermanence.nixosModules.impermanence
+    ../../modules/desktop/niri
+    ../../users/francesco/nixos.nix
   ];
 
-  modules.hardware.graphics.broadwell.enable = true;
-  modules.obs-studio.enable = true;
-
-  modules.gaming = {
-    enable = true;
-    steam.enable = true;
-    gamemode.enable = true;
-  };
+  networking.hostName = "xps9343";
 
   nixpkgs.config.allowUnfree = true;
-
-  networking.hostName = "xps9343";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -45,29 +33,31 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  modules.desktop.niri = {
-    enable = true;
-  };
+  modules.desktop.niri.enable = true;
 
   modules.users.francesco.enable = true;
 
   users.users.francesco.extraGroups = [ "gamemode" ];
 
   home-manager.users.francesco = {
-    modules.coding = {
-      git.enable = true;
+    imports = [
+      ../../home/desktop/niri
+    ];
+
+    modules.home.coding = {
+      enable = true;
       github.enable = true;
       vscodium.enable = true;
       opencode.enable = true;
     };
 
-    modules.desktop.niri.enable = true;
-    modules.persistence = {
+    modules.home.desktop.niri.enable = true;
+
+    modules.home.persistence = {
       enable = true;
       path = "/persist";
     };
 
-    # Host-specific monitor configuration for xps9343
     programs.niri.settings.outputs = {
       "eDP-1" = {
         mode = {
@@ -88,11 +78,6 @@
     pulse.enable = true;
     jack.enable = true;
   };
-
-  nixpkgs.overlays = [
-    (import ../../overlays/ckb-next.nix)
-    (import ../../overlays/openldap.nix)
-  ];
 
   hardware.ckb-next.enable = true;
 

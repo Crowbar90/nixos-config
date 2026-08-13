@@ -5,10 +5,10 @@
 }:
 
 let
-  cfg = config.modules.office;
+  cfg = config.modules.home.office;
 in
 {
-  options.modules.office = {
+  options.modules.home.office = {
     enable = lib.mkEnableOption "Office suite";
 
     onlyoffice = {

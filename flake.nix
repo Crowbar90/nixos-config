@@ -47,84 +47,14 @@
     ];
   };
 
-  outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      flake-parts,
-      ...
-    }:
+  outputs = inputs@{ self, flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
 
-      perSystem =
-        { config, pkgs, ... }:
-        {
-        };
-
-      flake = {
-        nixosConfigurations.xps9343 = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            inputs.disko.nixosModules.disko
-            inputs.niri.nixosModules.niri
-            {
-              nixpkgs.overlays = [ inputs.niri.overlays.niri ];
-            }
-
-            ./hosts/xps9343/default.nix
-            ./hosts/xps9343/disks.nix
-
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-              home-manager.users.francesco = import ./users/francesco/home.nix;
-            }
-          ];
-        };
-
-        nixosConfigurations.midgar = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            inputs.lanzaboote.nixosModules.lanzaboote
-            inputs.disko.nixosModules.disko
-            ./hosts/midgar/default.nix
-            ./hosts/midgar/disks.nix
-
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-              home-manager.users.francesco = import ./users/francesco/home.nix;
-            }
-          ];
-        };
-
-        nixosConfigurations.latitude7420 = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            inputs.lanzaboote.nixosModules.lanzaboote
-            inputs.disko.nixosModules.disko
-            #inputs.niri.nixosModules.niri
-            #{
-            #  nixpkgs.overlays = [ inputs.niri.overlays.niri ];
-            #}
-
-            ./hosts/latitude7420/default.nix
-            ./hosts/latitude7420/disks.nix
-
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-              home-manager.users.francesco = import ./users/francesco/home.nix;
-            }
-          ];
-        };
-      };
+      imports = [
+        ./parts/nixos-modules/base.nix
+        ./parts/nixos-modules/home.nix
+        ./parts/nixos-configurations
+      ];
     };
 }

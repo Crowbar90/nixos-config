@@ -1,29 +1,19 @@
 { config, pkgs, inputs, ... }:
+
 {
   imports = [
     ./hardware.nix
     ./disks.nix
-    ../../modules/core
-    ../../modules/gaming
     ../../modules/laptop
+    ../../modules/gaming
     ../../modules/obs-studio
-    ../../modules/users/francesco
-    ../../modules/desktop/niri.nix
-    inputs.impermanence.nixosModules.impermanence
-    inputs.niri.nixosModules.niri
+    ../../modules/desktop/niri
+    ../../users/francesco/nixos.nix
   ];
 
-  modules.obs-studio.enable = true;
-
-  modules.gaming = {
-    enable = true;
-    steam.enable = true;
-    gamemode.enable = true;
-  };
+  networking.hostName = "latitude7420";
 
   nixpkgs.config.allowUnfree = true;
-
-  networking.hostName = "latitude7420";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -48,39 +38,37 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  programs.niri.enable = true;
+  modules.desktop.niri.enable = true;
+  modules.users.francesco.enable = true;
+
   programs.xwayland.enable = true;
   security.polkit.enable = true;
-
-  modules.users.francesco.enable = true;
 
   users.users.francesco.extraGroups = [ "gamemode" ];
 
   home-manager.users.francesco = {
     imports = [
-      ../../modules/home/desktop/niri.nix
+      ../../home/desktop/niri
     ];
 
-    modules.coding = {
-      git.enable = true;
+    modules.home.coding = {
+      enable = true;
       github.enable = true;
       vscodium.enable = true;
       opencode.enable = true;
     };
 
-    modules.office = {
+    modules.home.office = {
       enable = true;
       onlyoffice.enable = true;
     };
 
-    modules.persistence = {
+    modules.home.persistence = {
       enable = true;
       path = "/persist";
     };
 
-    modules.desktop.niri = {
-      enable = true;
-    };
+    modules.home.desktop.niri.enable = true;
 
     programs.niri.settings.outputs = {
       "eDP-1" = {
@@ -111,11 +99,6 @@
     enable = true;
     mountOnMedia = true;
   };
-
-  nixpkgs.overlays = [
-    (import ../../overlays/ckb-next.nix)
-    (import ../../overlays/openldap.nix)
-  ];
 
   hardware.ckb-next.enable = true;
 

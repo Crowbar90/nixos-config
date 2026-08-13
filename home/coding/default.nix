@@ -7,11 +7,11 @@
 }:
 
 let
-  cfg = config.modules.coding;
+  cfg = config.modules.home.coding;
   antigravity = inputs.antigravity-nix.packages.x86_64-linux;
 in
 {
-  options.modules.coding = {
+  options.modules.home.coding = {
     enable = lib.mkEnableOption "software development (coding) tools";
 
     git = {
