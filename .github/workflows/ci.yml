@@ -26,9 +26,7 @@ jobs:
           EOF
 
       - name: Run alejandra
-        uses: kamadorueda/alejandra@4.0.0
-        with:
-          args: --check .
+        run: nix run nixpkgs#alejandra -- --check .
 
       - name: Run nix flake check
         run: nix flake check --all-systems
