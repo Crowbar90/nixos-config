@@ -4,14 +4,11 @@
   pkgs,
   inputs,
   ...
-}:
-
-let
-  cfg = config.modules.coding;
+}: let
+  cfg = config.modules.home.coding;
   antigravity = inputs.antigravity-nix.packages.x86_64-linux;
-in
-{
-  options.modules.coding = {
+in {
+  options.modules.home.coding = {
     enable = lib.mkEnableOption "software development (coding) tools";
 
     git = {
@@ -74,14 +71,13 @@ in
       gitCredentialHelper.enable = true;
     };
 
-    home.packages =
-      with pkgs;
-      (lib.optionals cfg.dotnet.enable [ dotnet-sdk_10 ])
-      ++ (lib.optionals cfg.antigravity.enable [ antigravity.default ])
-      ++ (lib.optionals cfg.antigravity.ide.enable [ antigravity.google-antigravity-ide ])
-      ++ (lib.optionals cfg.antigravity.cli.enable [ antigravity.google-antigravity-cli ])
-      ++ (lib.optionals cfg.vscodium.enable [ vscodium ])
-      ++ (lib.optionals cfg.opencode.enable [ opencode ])
-      ++ (lib.optionals cfg.opencode.desktop.enable [ opencode-desktop ]);
+    home.packages = with pkgs;
+      (lib.optionals cfg.dotnet.enable [dotnet-sdk_10])
+      ++ (lib.optionals cfg.antigravity.enable [antigravity.default])
+      ++ (lib.optionals cfg.antigravity.ide.enable [antigravity.google-antigravity-ide])
+      ++ (lib.optionals cfg.antigravity.cli.enable [antigravity.google-antigravity-cli])
+      ++ (lib.optionals cfg.vscodium.enable [vscodium])
+      ++ (lib.optionals cfg.opencode.enable [opencode])
+      ++ (lib.optionals cfg.opencode.desktop.enable [opencode-desktop]);
   };
 }

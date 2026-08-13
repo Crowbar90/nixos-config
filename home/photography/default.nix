@@ -1,10 +1,12 @@
-{ config, lib, pkgs, ... }:
-
-let
-  cfg = config.modules.photography;
-in
 {
-  options.modules.photography = {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.modules.home.photography;
+in {
+  options.modules.home.photography = {
     enable = lib.mkEnableOption "user-level photography configurations and tools";
 
     darktable = {
@@ -18,7 +20,7 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs;
-      (lib.optionals cfg.darktable.enable [ darktable ]) ++
-      (lib.optionals cfg.gimp.enable [ gimp ]);
+      (lib.optionals cfg.darktable.enable [darktable])
+      ++ (lib.optionals cfg.gimp.enable [gimp]);
   };
 }

@@ -1,22 +1,21 @@
 {
   config,
   pkgs,
-  inputs,
   ...
-}:
-
-{
+}: {
   imports = [
     ./hardware.nix
-    ../../hardware/graphics/nvidia
     ./disks.nix
-    ../../modules/core
+    ../../hardware/graphics/nvidia
     ../../modules/gaming
     ../../modules/obs-studio
     ../../modules/secureboot
-    ../../modules/users/francesco
-    inputs.impermanence.nixosModules.impermanence
+    ../../users/francesco/nixos.nix
   ];
+
+  networking.hostName = "midgar";
+
+  nixpkgs.config.allowUnfree = true;
 
   modules.hardware.graphics.nvidia = {
     enable = true;
@@ -32,9 +31,7 @@
   };
   modules.obs-studio.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
-
-  networking.hostName = "midgar";
+  modules.users.francesco.enable = true;
 
   environment.persistence."/persist" = {
     hideMounts = true;
@@ -55,13 +52,11 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  modules.users.francesco.enable = true;
-
-  users.users.francesco.extraGroups = [ "gamemode" ];
+  users.users.francesco.extraGroups = ["gamemode"];
 
   home-manager.users.francesco = {
-    modules.coding = {
-      git.enable = true;
+    modules.home.coding = {
+      enable = true;
       github.enable = true;
       dotnet.enable = true;
       antigravity = {
@@ -76,26 +71,22 @@
       };
     };
 
-    modules.gaming = {
+    modules.home.gaming = {
       enable = true;
-      heroic.enable = false;
       mangohud.enable = true;
     };
 
-    modules.persistence = {
+    modules.home.persistence = {
       enable = true;
       path = "/persist";
     };
   };
 
-  networking.networkmanager.enable = true;
-
   services.xserver.enable = true;
+  services.xserver.xkb.layout = "it";
 
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
-
-  services.xserver.xkb.layout = "it";
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -105,11 +96,6 @@
     pulse.enable = true;
     jack.enable = true;
   };
-
-  nixpkgs.overlays = [
-    (import ../../overlays/ckb-next.nix)
-    (import ../../overlays/openldap.nix)
-  ];
 
   hardware.ckb-next.enable = true;
 
@@ -122,7 +108,7 @@
 
   programs.nix-ld.enable = true;
 
-  boot.supportedFilesystems = [ "nfs" ];
+  boot.supportedFilesystems = ["nfs"];
 
   fileSystems."/mnt/tower/francesco" = {
     device = "192.168.40.2:/mnt/user/francesco";

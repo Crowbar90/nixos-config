@@ -1,9 +1,10 @@
-{ config, lib, ... }:
-
-let
-  cfg = config.modules.hardware.graphics.nvidia;
-in
 {
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.modules.hardware.graphics.nvidia;
+in {
   options.modules.hardware.graphics.nvidia = {
     enable = lib.mkEnableOption "Nvidia graphics support";
     open = lib.mkEnableOption "Open-source kernel module";
@@ -23,11 +24,11 @@ in
     hardware.nvidia.modesetting.enable = true;
     hardware.nvidia.open = cfg.open;
 
-    services.xserver.videoDrivers = [ "nvidia" ];
+    services.xserver.videoDrivers = ["nvidia"];
 
     nix.settings = lib.mkIf cfg.useBinaryCache {
-      substituters = [ "https://cache.nixos-cuda.org" ];
-      trusted-public-keys = [ "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M=" ];
+      substituters = ["https://cache.nixos-cuda.org"];
+      trusted-public-keys = ["cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="];
     };
   };
 }

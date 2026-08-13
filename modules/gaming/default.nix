@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-let
-  cfg = config.modules.gaming;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.modules.gaming;
+in {
   options.modules.gaming = {
     enable = lib.mkEnableOption "system-level gaming configurations and tools";
 
@@ -22,8 +24,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    boot.kernelModules = []
-      ++ (lib.optionals cfg.hardware.xbox360 [ "xpad" ]);
+    boot.kernelModules =
+      []
+      ++ (lib.optionals cfg.hardware.xbox360 ["xpad"]);
 
     hardware.steam-hardware = lib.mkIf cfg.hardware.xbox360 {
       enable = true;
@@ -44,10 +47,12 @@ in
       enable = true;
     };
 
-    services.udev.packages = []
-      ++ (lib.optionals cfg.hardware.xbox360 [ pkgs.game-devices-udev-rules ]);
+    services.udev.packages =
+      []
+      ++ (lib.optionals cfg.hardware.xbox360 [pkgs.game-devices-udev-rules]);
 
-    environment.systemPackages = with pkgs; []
-      ++ (lib.optionals cfg.hardware.logitech [ piper ]);
+    environment.systemPackages = with pkgs;
+      []
+      ++ (lib.optionals cfg.hardware.logitech [piper]);
   };
 }

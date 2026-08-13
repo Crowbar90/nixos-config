@@ -1,16 +1,13 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   imports = [
-    ../../modules/home/coding
-    ../../modules/home/gaming.nix
-    ../../modules/home/office
-    ../../modules/home/persistence.nix
-    ../../modules/home/photography.nix
+    ../../home/coding
+    ../../home/gaming
+    ../../home/office
+    ../../home/persistence
+    ../../home/photography
   ];
 
-  # Common coding configurations across all hosts
-  modules.coding = {
+  modules.home.coding = {
     enable = true;
     git = {
       userName = "Francesco Venturoli";
@@ -18,14 +15,13 @@
     };
   };
 
-  # Core applications installed for Francesco on all systems
   home.packages = [
     pkgs.chromium
     pkgs.nixd
     pkgs.nixfmt
   ];
 
-  modules.photography = {
+  modules.home.photography = {
     enable = true;
     darktable.enable = true;
     gimp.enable = true;

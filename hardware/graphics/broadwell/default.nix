@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-let
-  cfg = config.modules.hardware.graphics.broadwell;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.modules.hardware.graphics.broadwell;
+in {
   options.modules.hardware.graphics.broadwell = {
     enable = lib.mkEnableOption "Intel Broadwell graphics support";
   };
