@@ -2,6 +2,7 @@
 result
 result-*
 .direnv/
+.worktrees/
 
 # Secrets (DANGER: never commit decrypted secrets)
 secrets/*.dec

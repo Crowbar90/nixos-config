@@ -31,5 +31,5 @@ NixOS configuration managed with flakes.
 
 ## CI
 
-- **PR check** (`pr-check.yml`): runs on PRs and pushes to non-main branches. Validates `nix flake check` and `alejandra` formatting.
+- **PR check** (`pr-check.yml`): runs on pull requests to `main`. Validates `nix flake check` and `alejandra` formatting.
 - **CI** (`ci.yml`): runs on pushes to `main`. Adds per-host dry-run builds.
