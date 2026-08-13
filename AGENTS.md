@@ -19,7 +19,7 @@ CI order on every change: alejandra -> `flake check` -> per-host dry build. Do n
 
 - Work on a feature branch, open a PR to `main`. `pr-check.yml` runs on `pull_request`; `ci.yml` runs on push to `main` and adds the dry-run build matrix.
 - When adding a host, also add it to the matrix in `.github/workflows/ci.yml`.
-- Use a git worktree for implementation. Planning in the main checkout is fine, but create a worktree before making changes and remove it after the user confirms the session is done.
+- Use a git worktree for implementation. Planning in the main checkout is fine, but create a worktree before making changes and remove it after the user confirms the session is done. Create the worktree inside this repo at `.worktrees/<branch-name>` (path is gitignored) so tooling does not prompt for external-directory access. Example: `git worktree add .worktrees/chore-agents-md -b chore/agents-md`.
 
 ## Architecture (read this before editing)
 
