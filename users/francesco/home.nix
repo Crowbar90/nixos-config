@@ -3,8 +3,9 @@
 {
   imports = [
     ../../modules/home/coding
-    ../../modules/home/persistence.nix
     ../../modules/home/gaming.nix
+    ../../modules/home/office
+    ../../modules/home/persistence.nix
     ../../modules/home/photography.nix
   ];
 

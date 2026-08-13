@@ -68,6 +68,11 @@
       opencode.enable = true;
     };
 
+    modules.office = {
+      enable = true;
+      onlyoffice.enable = true;
+    };
+
     modules.persistence = {
       enable = true;
       path = "/persist";
