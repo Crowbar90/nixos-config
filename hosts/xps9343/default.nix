@@ -1,6 +1,9 @@
-{ config, pkgs, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ./hardware.nix
     ./disks.nix
@@ -37,7 +40,7 @@
 
   modules.users.francesco.enable = true;
 
-  users.users.francesco.extraGroups = [ "gamemode" ];
+  users.users.francesco.extraGroups = ["gamemode"];
 
   home-manager.users.francesco = {
     imports = [

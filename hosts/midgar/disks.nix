@@ -2,12 +2,12 @@
   disko.devices = {
     nodev."/" = {
       fsType = "tmpfs";
-      mountOptions = [ "size=2G" "mode=755" ];
+      mountOptions = ["size=2G" "mode=755"];
     };
-    
+
     nodev."/boot" = {
       fsType = "vfat";
-      device = "/dev/disk/by-uuid/469D-251E"; 
+      device = "/dev/disk/by-uuid/469D-251E";
     };
 
     disk = {
@@ -29,23 +29,23 @@
               size = "100%";
               content = {
                 type = "btrfs";
-                extraArgs = [ "-f" ];
+                extraArgs = ["-f"];
                 subvolumes = {
                   "/persist" = {
                     mountpoint = "/persist";
-                    mountOptions = [ "compress=zstd" "noatime" ];
+                    mountOptions = ["compress=zstd" "noatime"];
                   };
                   "/nix" = {
                     mountpoint = "/nix";
-                    mountOptions = [ "compress=zstd" "noatime" ];
+                    mountOptions = ["compress=zstd" "noatime"];
                   };
                   "/var/log" = {
                     mountpoint = "/var/log";
-                    mountOptions = [ "compress=zstd" "noatime" ];
+                    mountOptions = ["compress=zstd" "noatime"];
                   };
                   "/home" = {
                     mountpoint = "/home";
-                    mountOptions = [ "compress=zstd" "noatime" ];
+                    mountOptions = ["compress=zstd" "noatime"];
                   };
                 };
               };

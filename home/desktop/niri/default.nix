@@ -1,9 +1,12 @@
-{ config, lib, pkgs, inputs, ... }:
-
-let
-  cfg = config.modules.home.desktop.niri;
-in
 {
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: let
+  cfg = config.modules.home.desktop.niri;
+in {
   imports = [
     inputs.noctalia.homeModules.default
   ];
@@ -15,10 +18,10 @@ in
   config = lib.mkIf cfg.enable {
     xdg.portal = {
       enable = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      extraPortals = [pkgs.xdg-desktop-portal-gtk];
       config = {
         niri = {
-          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+          "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
         };
       };
     };
@@ -33,37 +36,35 @@ in
 
       binds = {
         "Mod+T".action.spawn = "kitty";
-        "Mod+O".action.show-hotkey-overlay = [ ];
+        "Mod+O".action.show-hotkey-overlay = [];
         "Mod+D".action.spawn = "fuzzel";
         "Mod+L".action.spawn = "swaylock";
-        "Mod+F".action.maximize-column = [ ];
-        "Mod+Shift+F".action.fullscreen-window = [ ];
+        "Mod+F".action.maximize-column = [];
+        "Mod+Shift+F".action.fullscreen-window = [];
       };
 
       spawn-at-startup = [
         {
-          command = [ "noctalia" ];
+          command = ["noctalia"];
         }
       ];
 
       window-rules = [
         {
-          geometry-corner-radius =
-            let
-              r = 8.0;
-            in
-            {
-              top-left = r;
-              top-right = r;
-              bottom-left = r;
-              bottom-right = r;
-            };
+          geometry-corner-radius = let
+            r = 8.0;
+          in {
+            top-left = r;
+            top-right = r;
+            bottom-left = r;
+            bottom-right = r;
+          };
           clip-to-geometry = true;
         }
       ];
 
       debug = {
-        honor-xdg-activation-with-invalid-serial = [ ];
+        honor-xdg-activation-with-invalid-serial = [];
       };
     };
 

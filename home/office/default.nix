@@ -2,12 +2,9 @@
   config,
   lib,
   ...
-}:
-
-let
+}: let
   cfg = config.modules.home.office;
-in
-{
+in {
   options.modules.home.office = {
     enable = lib.mkEnableOption "Office suite";
 

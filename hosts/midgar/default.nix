@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./hardware.nix
     ./disks.nix
@@ -50,7 +52,7 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  users.users.francesco.extraGroups = [ "gamemode" ];
+  users.users.francesco.extraGroups = ["gamemode"];
 
   home-manager.users.francesco = {
     modules.home.coding = {
@@ -106,7 +108,7 @@
 
   programs.nix-ld.enable = true;
 
-  boot.supportedFilesystems = [ "nfs" ];
+  boot.supportedFilesystems = ["nfs"];
 
   fileSystems."/mnt/tower/francesco" = {
     device = "192.168.40.2:/mnt/user/francesco";

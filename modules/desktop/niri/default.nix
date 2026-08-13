@@ -1,9 +1,10 @@
-{ config, lib, ... }:
-
-let
-  cfg = config.modules.desktop.niri;
-in
 {
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.modules.desktop.niri;
+in {
   options.modules.desktop.niri = {
     enable = lib.mkEnableOption "Niri window manager";
   };

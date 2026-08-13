@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-let
-  cfg = config.modules.home.gaming;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.modules.home.gaming;
+in {
   options.modules.home.gaming = {
     enable = lib.mkEnableOption "user-level gaming configurations and tools";
 
@@ -17,8 +19,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; []
-      ++ (lib.optionals cfg.heroic.enable [ heroic ]);
+    home.packages = with pkgs;
+      []
+      ++ (lib.optionals cfg.heroic.enable [heroic]);
 
     programs.mangohud = lib.mkIf cfg.mangohud.enable {
       enable = true;

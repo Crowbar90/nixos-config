@@ -1,7 +1,5 @@
-{ lib, ... }:
-
-{
-  flake.nixosModules.base = { ... }: {
+{lib, ...}: {
+  flake.nixosModules.base = {...}: {
     imports = [
       ./../../modules/base
     ];
