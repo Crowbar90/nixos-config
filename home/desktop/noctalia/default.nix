@@ -5,28 +5,32 @@
   inputs,
   ...
 }: let
-  cfg = config.modules.home.desktop.niri;
+  cfg = config.modules.home.desktop.noctalia;
 in {
   imports = [
     inputs.noctalia.homeModules.default
   ];
 
-  options.modules.home.desktop.niri = {
-    enable = lib.mkEnableOption "Niri window manager + Noctalia shell";
+  options.modules.home.desktop.noctalia = {
+    enable = lib.mkEnableOption "Noctalia desktop shell";
+    compositor = lib.mkOption {
+      type = lib.types.enum ["niri" "labwc"];
+      default = "niri";
+    };
   };
 
   config = lib.mkIf cfg.enable {
     xdg.portal = {
       enable = true;
       extraPortals = [pkgs.xdg-desktop-portal-gtk];
-      config = {
+      config = lib.mkIf (cfg.compositor == "niri") {
         niri = {
           "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
         };
       };
     };
 
-    programs.niri.settings = {
+    programs.niri.settings = lib.mkIf (cfg.compositor == "niri") {
       input = {
         keyboard.xkb.layout = "it";
         touchpad.tap = true;
@@ -68,15 +72,15 @@ in {
       };
     };
 
-    programs.kitty.enable = true;
-    programs.fuzzel.enable = true;
-    programs.swaylock.enable = true;
+    programs.kitty.enable = lib.mkIf (cfg.compositor == "niri") true;
+    programs.fuzzel.enable = lib.mkIf (cfg.compositor == "niri") true;
+    programs.swaylock.enable = lib.mkIf (cfg.compositor == "niri") true;
 
-    services.mako.enable = true;
-    services.swayidle.enable = true;
+    services.mako.enable = lib.mkIf (cfg.compositor == "niri") true;
+    services.swayidle.enable = lib.mkIf (cfg.compositor == "niri") true;
     services.polkit-gnome.enable = true;
 
-    home.packages = [
+    home.packages = lib.optionals (cfg.compositor == "niri") [
       pkgs.swaybg
       pkgs.xwayland-satellite
     ];

@@ -24,14 +24,8 @@ in {
       inputs.lanzaboote.nixosModules.lanzaboote
     ];
 
-    latitude7420 = mkHost "latitude7420" [
-      inputs.niri.nixosModules.niri
-      {nixpkgs.overlays = [inputs.niri.overlays.niri];}
-    ];
+    latitude7420 = mkHost "latitude7420" [];
 
-    xps9343 = mkHost "xps9343" [
-      inputs.niri.nixosModules.niri
-      {nixpkgs.overlays = [inputs.niri.overlays.niri];}
-    ];
+    xps9343 = mkHost "xps9343" [];
   };
 }
