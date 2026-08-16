@@ -13,9 +13,40 @@ in {
 
   options.modules.home.desktop.noctalia = {
     enable = lib.mkEnableOption "Noctalia desktop shell";
+
     compositor = lib.mkOption {
       type = lib.types.enum ["niri" "labwc"];
       default = "niri";
+    };
+
+    terminal = lib.mkOption {
+      type = lib.types.enum ["kitty"];
+      default = "kitty";
+    };
+
+    launcher = lib.mkOption {
+      type = lib.types.enum ["fuzzel"];
+      default = "fuzzel";
+    };
+
+    screen-locker = lib.mkOption {
+      type = lib.types.enum ["swaylock"];
+      default = "swaylock";
+    };
+
+    notification-daemon = lib.mkOption {
+      type = lib.types.enum ["mako"];
+      default = "mako";
+    };
+
+    idle-management-daemon = lib.mkOption {
+      type = lib.types.enum ["swayidle"];
+      default = "swayidle";
+    };
+
+    wallpaper = lib.mkOption {
+      type = lib.types.enum ["swaybg"];
+      default = "swaybg";
     };
   };
 
@@ -39,11 +70,25 @@ in {
       hotkey-overlay.skip-at-startup = true;
 
       binds = {
-        "Mod+T".action.spawn = "kitty";
+        "Mod+T".action.spawn =
+          {
+            "kitty" = "kitty";
+          }."${cfg.terminal}";
+
         "Mod+O".action.show-hotkey-overlay = [];
-        "Mod+D".action.spawn = "fuzzel";
-        "Mod+L".action.spawn = "swaylock";
+
+        "Mod+D".action.spawn =
+          {
+            "fuzzel" = "fuzzel";
+          }."${cfg.launcher}";
+
+        "Mod+L".action.spawn =
+          {
+            "swaylock" = "swaylock";
+          }."${cfg.screen-locker}";
+
         "Mod+F".action.maximize-column = [];
+
         "Mod+Shift+F".action.fullscreen-window = [];
       };
 
@@ -72,18 +117,19 @@ in {
       };
     };
 
-    programs.kitty.enable = lib.mkIf (cfg.compositor == "niri") true;
-    programs.fuzzel.enable = lib.mkIf (cfg.compositor == "niri") true;
-    programs.swaylock.enable = lib.mkIf (cfg.compositor == "niri") true;
+    programs.kitty.enable = lib.mkIf (cfg.terminal == "kitty") true;
+    programs.fuzzel.enable = lib.mkIf (cfg.launcher == "fuzzel") true;
+    programs.swaylock.enable = lib.mkIf (cfg.screen-locker == "swaylock") true;
 
-    services.mako.enable = lib.mkIf (cfg.compositor == "niri") true;
-    services.swayidle.enable = lib.mkIf (cfg.compositor == "niri") true;
+    services.mako.enable = lib.mkIf (cfg.notification-daemon == "mako") true;
+    services.swayidle.enable = lib.mkIf (cfg.idle-management-daemon == "swayidle") true;
     services.polkit-gnome.enable = true;
 
-    home.packages = lib.optionals (cfg.compositor == "niri") [
-      pkgs.swaybg
-      pkgs.xwayland-satellite
-    ];
+    home.packages = with pkgs;
+      [
+        xwayland-satellite
+      ]
+      ++ (lib.optionals (cfg.wallpaper == "swaybg") [swaybg]);
 
     programs.noctalia = {
       enable = true;

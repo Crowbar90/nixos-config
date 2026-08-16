@@ -13,7 +13,7 @@ in {
     users.users.francesco = {
       isNormalUser = true;
       extraGroups = ["networkmanager" "wheel"];
-      hashedPassword = "$6$35m44XndUk77Ef6Z$enc0ff47i3K1JQxVAJDwzm.mptOyIufdCmWEUrhqRTPpyZ/14SX5CHVQMKaNVRSLpFuCC/SOT03suW1hkuLl91";
+      hashedPassword = "$y$j9T$jvfR1WiKqHoJErQ8DaO67/$gzz7qCSbOIch4wWb0eb.yw7JlnXGSqmC6kv8K6TCsC3";
     };
   };
 }

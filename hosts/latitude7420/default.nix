@@ -12,6 +12,7 @@
     ../../modules/obs-studio
     ../../modules/desktop/noctalia
     ../../users/francesco/nixos.nix
+    ../../users/sonia/nixos.nix
   ];
 
   networking.hostName = "latitude7420";
@@ -43,6 +44,7 @@
 
   modules.desktop.noctalia.enable = true;
   modules.users.francesco.enable = true;
+  modules.users.sonia.enable = true;
 
   programs.xwayland.enable = true;
   security.polkit.enable = true;
@@ -71,7 +73,16 @@
       path = "/persist";
     };
 
-    modules.home.desktop.noctalia.enable = true;
+    modules.home.desktop.noctalia = {
+      enable = true;
+      compositor = "niri";
+      terminal = "kitty";
+      launcher = "fuzzel";
+      screen-locker = "swaylock";
+      notification-daemon = "mako";
+      idle-management-daemon = "swayidle";
+      wallpaper = "swaybg";
+    };
 
     programs.niri.settings.outputs = {
       "eDP-1" = {
@@ -87,6 +98,48 @@
     home.packages = with pkgs; [
       calibre
     ];
+  };
+
+  home-manager.users.sonia = {
+    imports = [
+      ../../home/desktop/noctalia
+    ];
+
+    modules.home.coding = {
+      enable = false;
+    };
+
+    modules.home.office = {
+      enable = true;
+      onlyoffice.enable = true;
+    };
+
+    modules.home.persistence = {
+      enable = true;
+      path = "/persist";
+    };
+
+    modules.home.desktop.noctalia = {
+      enable = true;
+      compositor = "labwc";
+      terminal = "kitty";
+      launcher = "fuzzel";
+      screen-locker = "swaylock";
+      notification-daemon = "mako";
+      idle-management-daemon = "swayidle";
+      wallpaper = "swaybg";
+    };
+
+    programs.niri.settings.outputs = {
+      "eDP-1" = {
+        mode = {
+          width = 1920;
+          height = 1080;
+          refresh = 60.0;
+        };
+        scale = 1;
+      };
+    };
   };
 
   security.rtkit.enable = true;
