@@ -10,7 +10,7 @@
     ../../modules/laptop
     ../../modules/gaming
     ../../modules/obs-studio
-    ../../modules/desktop/niri
+    ../../modules/desktop/noctalia
     ../../users/francesco/nixos.nix
   ];
 
@@ -36,7 +36,7 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  modules.desktop.niri.enable = true;
+  modules.desktop.noctalia.enable = true;
 
   modules.users.francesco.enable = true;
 
@@ -44,7 +44,7 @@
 
   home-manager.users.francesco = {
     imports = [
-      ../../home/desktop/niri
+      ../../home/desktop/noctalia
     ];
 
     modules.home.coding = {
@@ -54,7 +54,7 @@
       opencode.enable = true;
     };
 
-    modules.home.desktop.niri.enable = true;
+    modules.home.desktop.noctalia.enable = true;
 
     modules.home.persistence = {
       enable = true;

@@ -24,8 +24,8 @@ CI order on every change: alejandra -> `flake check` -> per-host dry build. Do n
 ## Architecture (read this before editing)
 
 - `flake.nix` imports `parts/nixos-modules/base.nix`, `parts/nixos-modules/home.nix`, `parts/nixos-configurations/`. That last one defines the `nixosConfigurations` and is the only place to register hosts.
-- Host assembly lives in `mkHost` (`parts/nixos-configurations/default.nix`). It auto-injects: `disko`, `impermanence`, `nixosModules.base`, `nixosModules.home`, plus the host's `hardware.nix`, `disks.nix`, `default.nix`. Pass flake-input-specific modules (e.g. `lanzaboote`, `niri`) in the `extraModules` list.
-- niri hosts must pass **both** `inputs.niri.nixosModules.niri` and `{nixpkgs.overlays = [inputs.niri.overlays.niri];}`. See `latitude7420`/`xps9343` for the pattern.
+- Host assembly lives in `mkHost` (`parts/nixos-configurations/default.nix`). It auto-injects: `disko`, `impermanence`, `nixosModules.base`, `nixosModules.home`, plus the host's `hardware.nix`, `disks.nix`, `default.nix`. Pass flake-input-specific modules (e.g. `lanzaboote`) in the `extraModules` list.
+- The desktop module (`modules/desktop/noctalia`) picks its compositor via `modules.desktop.noctalia.compositor` (`"niri"` or `"labwc"`) and wires the flake-specific bits itself (e.g. for `niri` it imports `inputs.niri.nixosModules.niri` and `{nixpkgs.overlays = [inputs.niri.overlays.niri];}`). Home-manager counterpart: `modules.home.desktop.noctalia`.
 - Users are wired into home-manager by the list in `parts/nixos-modules/home.nix`. Adding `users/<n>/home.nix` alone does nothing; the name must be in that list.
 - Two-layer module namespace: `modules/*` = NixOS options under `modules.*`; `home/*` = home-manager options under `modules.home.*`. Hosts set home options inside a `home-manager.users.<name> = { ... }` block (see any host's `default.nix`).
 
