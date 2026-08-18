@@ -190,6 +190,21 @@
         "type": "github"
       }
     },
+    "labwc-manager": {
+      "locked": {
+        "lastModified": 1733179117,
+        "narHash": "sha256-ECTjntT3Ed8BGc5EpKyImNVXApDhnYdEpSTxMVoAIQ8=",
+        "owner": "JaydenPahukula",
+        "repo": "labwc-manager",
+        "rev": "e84783143db4b0479064b9d914371834aa92ddb3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "JaydenPahukula",
+        "repo": "labwc-manager",
+        "type": "github"
+      }
+    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -397,6 +412,7 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
+        "labwc-manager": "labwc-manager",
         "lanzaboote": "lanzaboote",
         "niri": "niri",
         "nixpkgs": "nixpkgs_2",
