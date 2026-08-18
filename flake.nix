@@ -30,6 +30,10 @@
       url = "github:noctalia-dev/noctalia/cachix";
     };
 
+    labwc-manager = {
+      url = "github:JaydenPahukula/labwc-manager";
+    };
+
     antigravity-nix = {
       url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";

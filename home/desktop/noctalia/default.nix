@@ -9,6 +9,7 @@
 in {
   imports = [
     inputs.noctalia.homeModules.default
+    inputs.labwc-manager.homeManagerModule
   ];
 
   options.modules.home.desktop.noctalia = {
@@ -115,6 +116,97 @@ in {
       debug = {
         honor-xdg-activation-with-invalid-serial = [];
       };
+    };
+
+    programs.labwc = lib.mkIf (cfg.compositor == "labwc") {
+      enable = true;
+
+      config.core.gap = 10;
+
+      config.windowSwitcher = {
+        preview = false;
+        outlines = true;
+      };
+
+      config.keyboard = {
+        default = true;
+        keybinds = [
+          {
+            key = "W-space";
+            actions = [
+              {
+                name = "Execute";
+                command = "noctalia msg panel-toggle launcher";
+              }
+            ];
+          }
+          {
+            key = "W-s";
+            actions = [
+              {
+                name = "Execute";
+                command = "noctalia msg panel-toggle control-center";
+              }
+            ];
+          }
+          {
+            key = "W-,";
+            actions = [
+              {
+                name = "Execute";
+                command = "noctalia msg settings-toggle";
+              }
+            ];
+          }
+          {
+            key = "XF86AudioRaiseVolume";
+            actions = [
+              {
+                name = "Execute";
+                command = "noctalia msg volume-up";
+              }
+            ];
+          }
+          {
+            key = "XF86AudioLowerVolume";
+            actions = [
+              {
+                name = "Execute";
+                command = "noctalia msg volume-down";
+              }
+            ];
+          }
+          {
+            key = "XF86AudioMute";
+            actions = [
+              {
+                name = "Execute";
+                command = "noctalia msg volume-mute";
+              }
+            ];
+          }
+          {
+            key = "XF86MonBrightnessUp";
+            actions = [
+              {
+                name = "Execute";
+                command = "noctalia msg brightness-up";
+              }
+            ];
+          }
+          {
+            key = "XF86MonBrightnessDown";
+            actions = [
+              {
+                name = "Execute";
+                command = "noctalia msg brightness-down";
+              }
+            ];
+          }
+        ];
+      };
+
+      autostart = ["noctalia"];
     };
 
     programs.kitty.enable = lib.mkIf (cfg.terminal == "kitty") true;
