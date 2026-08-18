@@ -21,5 +21,6 @@ in {
 
   config = lib.mkIf cfg.enable {
     programs.niri.enable = lib.mkIf (cfg.compositor == "niri") true;
+    programs.labwc.enable = lib.mkIf (cfg.compositor == "labwc") true;
   };
 }
