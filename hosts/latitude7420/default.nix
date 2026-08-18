@@ -43,6 +43,18 @@
   hardware.enableRedistributableFirmware = true;
 
   modules.desktop.noctalia.enable = true;
+  modules.desktop.noctalia.greeter = {
+    enable = true;
+    users = {
+      francesco = "niri";
+      sonia = "labwc";
+    };
+    settings.output = {
+      width = 1920;
+      height = 1080;
+      scale = 1;
+    };
+  };
   modules.users.francesco.enable = true;
   modules.users.sonia.enable = true;
 
