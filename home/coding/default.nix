@@ -63,6 +63,9 @@ in {
           name = cfg.git.userName;
           email = cfg.git.userEmail;
         };
+        push = {
+          autoSetupRemote = true;
+        };
       };
     };
 
