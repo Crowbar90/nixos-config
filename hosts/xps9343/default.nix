@@ -37,6 +37,15 @@
   hardware.enableRedistributableFirmware = true;
 
   modules.desktop.noctalia.enable = true;
+  modules.desktop.noctalia.greeter = {
+    enable = true;
+    users.francesco = "niri";
+    settings.output = {
+      width = 3200;
+      height = 1800;
+      scale = 1.5;
+    };
+  };
 
   modules.users.francesco.enable = true;
 

@@ -30,6 +30,10 @@
       url = "github:noctalia-dev/noctalia/cachix";
     };
 
+    noctalia-greeter = {
+      url = "github:noctalia-dev/noctalia-greeter";
+    };
+
     labwc-manager = {
       url = "github:JaydenPahukula/labwc-manager";
     };
