@@ -46,6 +46,8 @@
   modules.users.francesco.enable = true;
   modules.users.sonia.enable = true;
 
+  modules.obs-studio.enable = true;
+
   programs.xwayland.enable = true;
   security.polkit.enable = true;
 
@@ -148,6 +150,18 @@
   hardware.ckb-next.enable = true;
 
   programs.nix-ld.enable = true;
+
+  boot.supportedFilesystems = ["nfs"];
+
+  fileSystems."/mnt/tower/francesco" = {
+    device = "192.168.40.2:/mnt/user/francesco";
+    fsType = "nfs";
+    options = [
+      "x-systemd.automount"
+      "noauto"
+      "x-systemd.idle-timeout=600"
+    ];
+  };
 
   system.stateVersion = "25.11";
 }
