@@ -29,6 +29,10 @@ in {
       enable = lib.mkEnableOption "GitHub CLI";
     };
 
+    docker = {
+      enable = lib.mkEnableOption "Docker CLI";
+    };
+
     dotnet = {
       enable = lib.mkEnableOption ".NET SDK";
     };
@@ -75,7 +79,8 @@ in {
     };
 
     home.packages = with pkgs;
-      (lib.optionals cfg.dotnet.enable [dotnet-sdk_10])
+      (lib.optionals cfg.docker.enable [docker])
+      ++ (lib.optionals cfg.dotnet.enable [dotnet-sdk_10])
       ++ (lib.optionals cfg.antigravity.enable [antigravity.default])
       ++ (lib.optionals cfg.antigravity.ide.enable [antigravity.google-antigravity-ide])
       ++ (lib.optionals cfg.antigravity.cli.enable [antigravity.google-antigravity-cli])

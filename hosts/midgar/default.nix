@@ -7,6 +7,7 @@
     ./hardware.nix
     ./disks.nix
     ../../hardware/graphics/nvidia
+    ../../modules/coding
     ../../modules/gaming
     ../../modules/obs-studio
     ../../modules/secureboot
@@ -22,6 +23,12 @@
     open = true;
     useBinaryCache = true;
   };
+
+  modules.coding = {
+    enable = true;
+    docker.enable = true;
+  };
+
   modules.gaming = {
     enable = true;
     steam.enable = true;
@@ -29,6 +36,7 @@
     hardware.logitech = true;
     hardware.xbox360 = true;
   };
+
   modules.obs-studio.enable = true;
 
   modules.users.francesco.enable = true;
@@ -52,7 +60,7 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  users.users.francesco.extraGroups = ["gamemode"];
+  users.users.francesco.extraGroups = ["docker" "gamemode"];
 
   home-manager.users.francesco = {
     modules.home.coding = {
