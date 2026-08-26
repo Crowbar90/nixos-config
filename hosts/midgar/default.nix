@@ -10,6 +10,7 @@
     ../../modules/coding
     ../../modules/gaming
     ../../modules/obs-studio
+    ../../modules/package-managers
     ../../modules/secureboot
     ../../users/francesco/nixos.nix
   ];
@@ -38,6 +39,10 @@
   };
 
   modules.obs-studio.enable = true;
+
+  modules.package-managers = {
+    flatpak.enable = true;
+  };
 
   modules.users.francesco.enable = true;
 
