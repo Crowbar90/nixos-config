@@ -13,6 +13,10 @@ in {
       enable = lib.mkEnableOption "Heroic Game Launcher";
     };
 
+    lutris = {
+      enable = lib.mkEnableOption "Lutris Open Gaming Platform";
+    };
+
     mangohud = {
       enable = lib.mkEnableOption "MangoHud";
     };
@@ -26,6 +30,10 @@ in {
     programs.mangohud = lib.mkIf cfg.mangohud.enable {
       enable = true;
       enableSessionWide = true;
+    };
+
+    programs.lutris = lib.mkIf cfg.lutris.enable {
+      enable = true;
     };
   };
 }

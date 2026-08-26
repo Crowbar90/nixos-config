@@ -86,6 +86,7 @@
 
     modules.home.gaming = {
       enable = true;
+      lutris.enable = true;
       mangohud.enable = true;
     };
 
