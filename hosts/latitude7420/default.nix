@@ -10,6 +10,7 @@
     ../../modules/laptop
     ../../modules/gaming
     ../../modules/obs-studio
+    ../../modules/virtualisation
     ../../modules/desktop/noctalia
     ../../users/francesco/nixos.nix
     ../../users/sonia/nixos.nix
@@ -57,6 +58,11 @@
   };
   modules.users.francesco.enable = true;
   modules.users.sonia.enable = true;
+
+  modules.virtualisation = {
+    enable = true;
+    podman.enable = true;
+  };
 
   modules.obs-studio.enable = true;
 

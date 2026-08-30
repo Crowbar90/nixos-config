@@ -10,6 +10,7 @@
     ../../modules/gaming
     ../../modules/obs-studio
     ../../modules/secureboot
+    ../../modules/virtualisation
     ../../users/francesco/nixos.nix
   ];
 
@@ -32,6 +33,11 @@
   modules.obs-studio.enable = true;
 
   modules.users.francesco.enable = true;
+
+  modules.virtualisation = {
+    enable = true;
+    podman.enable = true;
+  };
 
   environment.persistence."/persist" = {
     hideMounts = true;
