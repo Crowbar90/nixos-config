@@ -1,0 +1,34 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.modules.printing;
+in {
+  options.modules.printing = {
+    enable = lib.mkEnableOption "system-level printing system";
+
+    epson-escpr2 = {
+      enable = lib.mkEnableOption "Epson ESCPR2 driver";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    services.avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
+
+    services.printing = {
+      enable = true;
+      drivers = with pkgs;
+        [
+          cups-filters
+          cups-browsed
+        ]
+        ++ (lib.optionals cfg.epson-escpr2.enable [epson-escpr2]);
+    };
+  };
+}

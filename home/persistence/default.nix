@@ -26,6 +26,7 @@ in {
         ".config/VSCodium"
         ".config/opencode"
         ".config/git"
+        ".config/noctalia"
         ".vscode-oss"
       ];
       files = [
