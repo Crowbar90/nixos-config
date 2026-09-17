@@ -49,19 +49,14 @@ in {
       type = lib.types.enum ["swaybg"];
       default = "swaybg";
     };
+
+    file-manager = lib.mkOption {
+      type = lib.types.enum ["nemo"];
+      default = "nemo";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    xdg.portal = {
-      enable = true;
-      extraPortals = [pkgs.xdg-desktop-portal-gtk];
-      config = lib.mkIf (cfg.compositor == "niri") {
-        niri = {
-          "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
-        };
-      };
-    };
-
     programs.niri.settings = lib.mkIf (cfg.compositor == "niri") {
       input = {
         keyboard.xkb.layout = "it";
@@ -208,6 +203,23 @@ in {
 
       autostart = ["noctalia"];
     };
+
+    xdg = lib.mkIf (cfg.file-manager == "nemo") {
+      desktopEntries.nemo = {
+        name = "Nemo";
+        exec = "${pkgs.nemo-with-extensions}/bin/nemo";
+      };
+
+      mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "inode/directory" = ["nemo.desktop"];
+          "application/x-gnome-saved-search" = ["nemo.desktop"];
+        };
+      };
+    };
+
+    dconf.settings."org/cinnamon/desktop/applications/terminal".exec = lib.mkIf (cfg.terminal == "kitty") "kitty";
 
     programs.kitty.enable = lib.mkIf (cfg.terminal == "kitty") true;
     programs.fuzzel.enable = lib.mkIf (cfg.launcher == "fuzzel") true;
