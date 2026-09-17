@@ -3,7 +3,7 @@
   self,
   ...
 }: let
-  mkHost = hostname: extraModules:
+  mkHost = hostname: extraModules: extraOverlays:
     inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules =
@@ -15,17 +15,23 @@
           ./../../hosts/${hostname}/hardware.nix
           ./../../hosts/${hostname}/disks.nix
           ./../../hosts/${hostname}/default.nix
+          {
+            nixpkgs.overlays = map import extraOverlays;
+          }
         ]
         ++ extraModules;
     };
 in {
   flake.nixosConfigurations = {
-    midgar = mkHost "midgar" [
-      inputs.lanzaboote.nixosModules.lanzaboote
-    ];
+    midgar =
+      mkHost "midgar" [
+        inputs.lanzaboote.nixosModules.lanzaboote
+      ] [
+        ../../overlays/openldap.nix
+      ];
 
-    latitude7420 = mkHost "latitude7420" [];
+    latitude7420 = mkHost "latitude7420" [] [];
 
-    xps9343 = mkHost "xps9343" [];
+    xps9343 = mkHost "xps9343" [] [];
   };
 }

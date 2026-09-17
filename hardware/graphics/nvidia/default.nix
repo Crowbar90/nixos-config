@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.modules.hardware.graphics.nvidia;
@@ -19,10 +20,16 @@ in {
     hardware.graphics = {
       enable = true;
       enable32Bit = true;
+      extraPackages = with pkgs; [
+        nvidia-vaapi-driver
+      ];
     };
 
-    hardware.nvidia.modesetting.enable = true;
-    hardware.nvidia.open = cfg.open;
+    hardware.nvidia ={
+      modesetting.enable = true;
+      open = cfg.open;
+      nvidiaSettings = true;
+    };
 
     services.xserver.videoDrivers = ["nvidia"];
 

@@ -10,6 +10,39 @@
       device = "/dev/disk/by-uuid/469D-251E";
     };
 
+    nodev."/mnt/warm" = {
+      device = "/dev/disk/by-label/Warm";
+      fsType = "ntfs3";
+      mountOptions = [
+        "rw"
+        "uid=1000"
+        "gid=100"
+        "umask=000"
+        "fmask=000"
+        "dmask=000"
+        "iocharset=utf8"
+        "nofail"
+        "x-systemd.device-timeout=10s"
+        "force"
+      ];
+    };
+
+    nodev."/mnt/cold" = {
+      device = "/dev/disk/by-label/Cold";
+      fsType = "ntfs3";
+      mountOptions = [
+        "rw"
+        "uid=1000"
+        "gid=100"
+        "umask=000"
+        "fmask=000"
+        "dmask=000"
+        "iocharset=utf8"
+        "nofail"
+        "x-systemd.device-timeout=10s"
+      ];
+    };
+
     disk = {
       main = {
         device = "/dev/disk/by-id/ata-Fanxiang_S101Q_512GB_AA00000000020123";
