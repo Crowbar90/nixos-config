@@ -25,7 +25,7 @@ in {
       ];
     };
 
-    hardware.nvidia ={
+    hardware.nvidia = {
       modesetting.enable = true;
       open = cfg.open;
       nvidiaSettings = true;
