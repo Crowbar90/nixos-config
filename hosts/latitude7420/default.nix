@@ -10,6 +10,7 @@
     ../../modules/laptop
     ../../modules/gaming
     ../../modules/obs-studio
+    ../../modules/printing
     ../../modules/virtualisation
     ../../modules/desktop/noctalia
     ../../users/francesco/nixos.nix
@@ -56,6 +57,15 @@
       scale = 1;
     };
   };
+
+  modules.gaming = {
+    enable = true;
+    steam.enable = true;
+    gamemode.enable = true;
+    hardware.logitech = true;
+    hardware.xbox360 = true;
+  };
+
   modules.users.francesco.enable = true;
   modules.users.sonia.enable = true;
 
@@ -65,6 +75,11 @@
   };
 
   modules.obs-studio.enable = true;
+
+  modules.printing = {
+    enable = true;
+    epson-escpr2.enable = true;
+  };
 
   programs.xwayland.enable = true;
   security.polkit.enable = true;
@@ -78,9 +93,19 @@
 
     modules.home.coding = {
       enable = true;
+      dotnet.enable = true;
       github.enable = true;
       vscodium.enable = true;
       opencode.enable = true;
+      jetbrains = {
+        toolbox.enable = false;
+        rider.enable = true;
+      };
+    };
+
+    modules.home.gaming = {
+      enable = true;
+      mangohud.enable = true;
     };
 
     modules.home.office = {

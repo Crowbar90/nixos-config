@@ -53,6 +53,16 @@ in {
         enable = lib.mkEnableOption "OpenCode Desktop app";
       };
     };
+
+    jetbrains = {
+      toolbox = {
+        enable = lib.mkEnableOption "JetBrains Toolbox";
+      };
+
+      rider = {
+        enable = lib.mkEnableOption "JetBrains Rider";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -81,6 +91,8 @@ in {
       ++ (lib.optionals cfg.antigravity.cli.enable [antigravity.google-antigravity-cli])
       ++ (lib.optionals cfg.vscodium.enable [vscodium])
       ++ (lib.optionals cfg.opencode.enable [opencode])
-      ++ (lib.optionals cfg.opencode.desktop.enable [opencode-desktop]);
+      ++ (lib.optionals cfg.opencode.desktop.enable [opencode-desktop])
+      ++ (lib.optionals cfg.jetbrains.toolbox.enable [jetbrains-toolbox])
+      ++ (lib.optionals cfg.jetbrains.rider.enable [jetbrains.rider]);
   };
 }
