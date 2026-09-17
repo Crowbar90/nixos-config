@@ -22,6 +22,7 @@
   environment.systemPackages = with pkgs; [
     curl
     git
+    p7zip
     vim
     wget
   ];

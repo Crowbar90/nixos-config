@@ -79,7 +79,10 @@
 
     modules.home.gaming = {
       enable = true;
+      lutris.enable = true;
       mangohud.enable = true;
+      steam-tinker-launch.enable = true;
+      vkbasalt.enable = true;
     };
 
     modules.home.persistence = {
