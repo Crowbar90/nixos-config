@@ -106,6 +106,10 @@
     modules.home.gaming = {
       enable = true;
       mangohud.enable = true;
+      heroic.enable = false;
+      lutris.enable = true;
+      steam-tinker-launch.enable = true;
+      vkbasalt.enable = true;
     };
 
     modules.home.office = {
@@ -127,6 +131,7 @@
       notification-daemon = "mako";
       idle-management-daemon = "swayidle";
       wallpaper = "swaybg";
+      file-manager = "nemo";
     };
 
     programs.niri.settings.outputs = {
@@ -154,6 +159,15 @@
       enable = false;
     };
 
+    modules.home.gaming = {
+      enable = true;
+      mangohud.enable = false;
+      heroic.enable = false;
+      lutris.enable = true;
+      steam-tinker-launch.enable = false;
+      vkbasalt.enable = false;
+    };
+
     modules.home.office = {
       enable = true;
       onlyoffice.enable = true;
@@ -173,6 +187,7 @@
       notification-daemon = "mako";
       idle-management-daemon = "swayidle";
       wallpaper = "swaybg";
+      file-manager = "nemo";
     };
   };
 

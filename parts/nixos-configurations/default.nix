@@ -30,7 +30,9 @@ in {
         ../../overlays/openldap.nix
       ];
 
-    latitude7420 = mkHost "latitude7420" [] [];
+    latitude7420 = mkHost "latitude7420" [] [
+      ../../overlays/openldap.nix
+    ];
 
     xps9343 = mkHost "xps9343" [] [];
   };
