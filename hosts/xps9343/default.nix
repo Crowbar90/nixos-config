@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  lib,
   ...
 }: {
   imports = [
@@ -70,16 +71,12 @@
       path = "/persist";
     };
 
-    programs.niri.settings.outputs = {
-      "eDP-1" = {
-        mode = {
-          width = 3200;
-          height = 1800;
-          refresh = 60.0;
-        };
-        scale = 1.5;
-      };
-    };
+    xdg.configFile."niri/config.kdl".text = lib.mkAfter ''
+      output "eDP-1" {
+          mode "3200x1800@60"
+          scale 1.5
+      }
+    '';
   };
 
   security.rtkit.enable = true;

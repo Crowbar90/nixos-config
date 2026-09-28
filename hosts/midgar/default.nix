@@ -65,11 +65,6 @@
       enable = true;
       github.enable = true;
       dotnet.enable = true;
-      antigravity = {
-        enable = true;
-        ide.enable = true;
-        cli.enable = true;
-      };
       vscodium.enable = true;
       opencode = {
         enable = true;
