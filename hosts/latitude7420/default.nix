@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  lib,
   ...
 }: {
   imports = [
@@ -44,6 +45,37 @@
 
   hardware.enableRedistributableFirmware = true;
 
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver
+      vpl-gpu-rt
+      libva
+    ];
+  };
+
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD";
+  };
+
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    v4l2loopback
+  ];
+  boot.kernelModules = [
+    "kvm-intel"
+    "i915"
+    "v4l2loopback"
+  ];
+  boot.kernelParams = [
+    "i915.enable_guc=3"
+  ];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback devices=1 video_nr=10 card_label="OBS Virtual Camera" exclusive_caps=1
+  '';
+
   modules.desktop.noctalia.enable = true;
   modules.desktop.noctalia.greeter = {
     enable = true;
@@ -51,10 +83,15 @@
       francesco = "niri";
       sonia = "labwc";
     };
-    settings.output = {
-      width = 1920;
-      height = 1080;
-      scale = 1;
+    settings = {
+      output = {
+        width = 1920;
+        height = 1080;
+        scale = 1;
+      };
+      default_session = {
+        user = "francesco";
+      };
     };
   };
 
@@ -134,16 +171,12 @@
       file-manager = "nemo";
     };
 
-    programs.niri.settings.outputs = {
-      "eDP-1" = {
-        mode = {
-          width = 1920;
-          height = 1080;
-          refresh = 60.0;
-        };
-        scale = 1;
-      };
-    };
+    xdg.configFile."niri/config.kdl".text = lib.mkAfter ''
+      output "eDP-1" {
+          mode "1920x1080@60"
+          scale 1.0
+      }
+    '';
 
     home.packages = with pkgs; [
       calibre
