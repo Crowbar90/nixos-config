@@ -8,6 +8,12 @@
     auto-optimise-store = true;
   };
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 14d";
+  };
+
   # Internationalization
   time.timeZone = "Europe/Rome";
   i18n.defaultLocale = "en_US.UTF-8";
