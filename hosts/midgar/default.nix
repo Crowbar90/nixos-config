@@ -10,6 +10,7 @@
     ../../modules/gaming
     ../../modules/obs-studio
     ../../modules/secureboot
+    ../../modules/ssh-server
     ../../modules/virtualisation
     ../../users/francesco/nixos.nix
   ];
@@ -33,6 +34,11 @@
   modules.obs-studio.enable = true;
 
   modules.users.francesco.enable = true;
+
+  modules.ssh-server = {
+    enable = true;
+    allowUsers = ["francesco"];
+  };
 
   modules.virtualisation = {
     enable = true;
