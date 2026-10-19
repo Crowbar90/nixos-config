@@ -8,11 +8,11 @@
     auto-optimise-store = true;
   };
 
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 14d";
-  };
+  # nix.gc = {
+  #   automatic = true;
+  #   dates = "weekly";
+  #   options = "--delete-older-than 14d";
+  # };
 
   # Internationalization
   time.timeZone = "Europe/Rome";
