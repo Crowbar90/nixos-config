@@ -58,7 +58,7 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  users.users.francesco.extraGroups = ["gamemode"];
+  users.users.francesco.extraGroups = ["gamemode" "podman" "docker"];
 
   home-manager.users.francesco = {
     modules.home.coding = {

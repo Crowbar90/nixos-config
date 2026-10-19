@@ -31,6 +31,8 @@ in {
       nvidiaSettings = true;
     };
 
+    hardware.nvidia-container-toolkit.enable = true;
+
     services.xserver.videoDrivers = ["nvidia"];
 
     nix.settings = lib.mkIf cfg.useBinaryCache {
