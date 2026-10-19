@@ -8,12 +8,6 @@
   cfg = config.modules.desktop.noctalia;
   greeter = cfg.greeter;
 in {
-  imports = [
-    inputs.niri.nixosModules.niri
-    {nixpkgs.overlays = [inputs.niri.overlays.niri];}
-    inputs.noctalia-greeter.nixosModules.default
-  ];
-
   options.modules.desktop.noctalia = {
     enable = lib.mkEnableOption "Noctalia desktop shell and compositor";
     compositor = lib.mkOption {
@@ -45,7 +39,7 @@ in {
       "/var/lib/AccountsService"
     ];
 
-    programs.noctalia-greeter = lib.mkIf greeter.enable {
+    services.displayManager.noctalia-greeter = lib.mkIf greeter.enable {
       enable = true;
       settings =
         lib.recursiveUpdate {

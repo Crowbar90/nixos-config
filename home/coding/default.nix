@@ -6,7 +6,6 @@
   ...
 }: let
   cfg = config.modules.home.coding;
-  antigravity = inputs.antigravity-nix.packages.x86_64-linux;
 in {
   options.modules.home.coding = {
     enable = lib.mkEnableOption "software development (coding) tools";
@@ -31,16 +30,6 @@ in {
 
     dotnet = {
       enable = lib.mkEnableOption ".NET SDK";
-    };
-
-    antigravity = {
-      enable = lib.mkEnableOption "Google Antigravity base app";
-      ide = {
-        enable = lib.mkEnableOption "Google Antigravity IDE";
-      };
-      cli = {
-        enable = lib.mkEnableOption "Google Antigravity CLI (agy)";
-      };
     };
 
     vscodium = {
@@ -86,9 +75,6 @@ in {
 
     home.packages = with pkgs;
       (lib.optionals cfg.dotnet.enable [dotnet-sdk_10])
-      ++ (lib.optionals cfg.antigravity.enable [antigravity.default])
-      ++ (lib.optionals cfg.antigravity.ide.enable [antigravity.google-antigravity-ide])
-      ++ (lib.optionals cfg.antigravity.cli.enable [antigravity.google-antigravity-cli])
       ++ (lib.optionals cfg.vscodium.enable [vscodium])
       ++ (lib.optionals cfg.opencode.enable [opencode])
       ++ (lib.optionals cfg.opencode.desktop.enable [opencode-desktop])

@@ -8,7 +8,6 @@
   cfg = config.modules.home.desktop.noctalia;
 in {
   imports = [
-    inputs.noctalia.homeModules.default
     inputs.labwc-manager.homeManagerModule
   ];
 
@@ -57,62 +56,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    programs.niri.settings = lib.mkIf (cfg.compositor == "niri") {
-      input = {
-        keyboard.xkb.layout = "it";
-        touchpad.tap = true;
-      };
-
-      hotkey-overlay.skip-at-startup = true;
-
-      binds = {
-        "Mod+T".action.spawn =
-          {
-            "kitty" = "kitty";
-          }."${cfg.terminal}";
-
-        "Mod+O".action.show-hotkey-overlay = [];
-
-        "Mod+D".action.spawn =
-          {
-            "fuzzel" = "fuzzel";
-          }."${cfg.launcher}";
-
-        "Mod+L".action.spawn =
-          {
-            "swaylock" = "swaylock";
-          }."${cfg.screen-locker}";
-
-        "Mod+F".action.maximize-column = [];
-
-        "Mod+Shift+F".action.fullscreen-window = [];
-      };
-
-      spawn-at-startup = [
-        {
-          command = ["noctalia"];
-        }
-      ];
-
-      window-rules = [
-        {
-          geometry-corner-radius = let
-            r = 8.0;
-          in {
-            top-left = r;
-            top-right = r;
-            bottom-left = r;
-            bottom-right = r;
-          };
-          clip-to-geometry = true;
-        }
-      ];
-
-      debug = {
-        honor-xdg-activation-with-invalid-serial = [];
-      };
-    };
-
     programs.labwc = lib.mkIf (cfg.compositor == "labwc") {
       enable = true;
 
@@ -205,6 +148,46 @@ in {
     };
 
     xdg = lib.mkIf (cfg.file-manager == "nemo") {
+      configFile."niri/config.kdl" = lib.mkIf (cfg.compositor == "niri") {
+        text = ''
+          input {
+              keyboard {
+                  xkb {
+                      layout "it"
+                  }
+              }
+              touchpad {
+                  tap
+                  natural-scroll
+              }
+          }
+
+          hotkey-overlay {
+              skip-at-startup
+          }
+
+          binds {
+              "Mod+T" { spawn "${cfg.terminal}"; }
+              "Mod+O" { show-hotkey-overlay; }
+              "Mod+D" { spawn "${cfg.launcher}"; }
+              "Mod+L" { spawn "${cfg.screen-locker}"; }
+              "Mod+F" { maximize-column; }
+              "Mod+Shift+F" { fullscreen-window; }
+          }
+
+          spawn-at-startup "noctalia"
+
+          window-rule {
+              geometry-corner-radius 8.0
+              clip-to-geometry true
+          }
+
+          debug {
+              honor-xdg-activation-with-invalid-serial
+          }
+        '';
+      };
+
       desktopEntries.nemo = {
         name = "Nemo";
         exec = "${pkgs.nemo-with-extensions}/bin/nemo";
@@ -232,11 +215,8 @@ in {
     home.packages = with pkgs;
       [
         xwayland-satellite
+        noctalia
       ]
       ++ (lib.optionals (cfg.wallpaper == "swaybg") [swaybg]);
-
-    programs.noctalia = {
-      enable = true;
-    };
   };
 }
