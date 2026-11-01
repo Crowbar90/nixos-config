@@ -13,6 +13,10 @@ in {
       default = [];
       description = "List of allowed users.";
     };
+
+    passwordAuthentication = {
+      enable = lib.mkEnableOption "Enable password authentication";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -20,7 +24,7 @@ in {
       enable = true;
       openFirewall = true;
       settings = {
-        PasswordAuthentication = false;
+        PasswordAuthentication = cfg.passwordAuthentication.enable;
         KbdInteractiveAuthentication = false;
         PermitRootLogin = "no";
         AllowUsers = cfg.allowUsers;

@@ -12,6 +12,7 @@
     ../../modules/secureboot
     ../../modules/ssh-server
     ../../modules/virtualisation
+    ../../shares/tower
     ../../users/francesco/nixos.nix
   ];
 
@@ -24,13 +25,16 @@
     open = true;
     useBinaryCache = true;
   };
+
   modules.gaming = {
     enable = true;
     steam.enable = true;
     gamemode.enable = true;
     hardware.logitech = true;
     hardware.xbox360 = true;
+    sunshine.enable = true;
   };
+
   modules.obs-studio.enable = true;
 
   modules.users.francesco.enable = true;
@@ -38,6 +42,7 @@
   modules.ssh-server = {
     enable = true;
     allowUsers = ["francesco"];
+    passwordAuthentication.enable = true;
   };
 
   modules.virtualisation = {
@@ -64,7 +69,7 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  users.users.francesco.extraGroups = ["gamemode" "podman" "docker"];
+  users.users.francesco.extraGroups = ["gamemode" "podman" "docker" "video" "uinput"];
 
   home-manager.users.francesco = {
     modules.home.coding = {
@@ -95,8 +100,30 @@
   services.xserver.enable = true;
   services.xserver.xkb.layout = "it";
 
-  services.displayManager.gdm.enable = true;
+  services.displayManager = {
+    gdm.enable = true;
+    autoLogin = {
+      enable = true;
+      user = "francesco";
+    };
+  };
+
   services.desktopManager.gnome.enable = true;
+
+  systemd.user.services.lock-after-autologin = {
+    description = "Lock GNOME screen immediately after autologin";
+    wantedBy = ["graphical-session.target"];
+    after = ["graphical-session.target"];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 1.5";
+      ExecStart = "${pkgs.dbus}/bin/dbus-send --type=method_call --dest=org.gnome.ScreenSaver /org/gnome/ScreenSaver org.gnome.ScreenSaver.Lock";
+    };
+  };
+
+  hardware.uinput.enable = true;
+
+  environment.systemPackages = [pkgs.gnome-randr];
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -120,14 +147,9 @@
 
   boot.supportedFilesystems = ["nfs"];
 
-  fileSystems."/mnt/tower/francesco" = {
-    device = "192.168.40.2:/mnt/user/francesco";
-    fsType = "nfs";
-    options = [
-      "x-systemd.automount"
-      "noauto"
-      "x-systemd.idle-timeout=600"
-    ];
+  shares.tower = {
+    darktable.enable = true;
+    francesco.enable = true;
   };
 
   system.stateVersion = "26.05";
