@@ -14,6 +14,7 @@
     ../../modules/printing
     ../../modules/virtualisation
     ../../modules/desktop/noctalia
+    ../../shares/tower
     ../../users/francesco/nixos.nix
     ../../users/sonia/nixos.nix
   ];
@@ -247,14 +248,9 @@
 
   boot.supportedFilesystems = ["nfs"];
 
-  fileSystems."/mnt/tower/francesco" = {
-    device = "192.168.40.2:/mnt/user/francesco";
-    fsType = "nfs";
-    options = [
-      "x-systemd.automount"
-      "noauto"
-      "x-systemd.idle-timeout=600"
-    ];
+  shares.tower = {
+    darktable.enable = true;
+    francesco.enable = true;
   };
 
   system.stateVersion = "25.11";

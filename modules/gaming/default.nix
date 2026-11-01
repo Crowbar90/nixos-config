@@ -21,6 +21,10 @@ in {
       logitech = lib.mkEnableOption "Logitech hardware";
       xbox360 = lib.mkEnableOption "Xbox 360 controller";
     };
+
+    sunshine = {
+      enable = lib.mkEnableOption "Sunshine";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -58,5 +62,15 @@ in {
     environment.systemPackages = with pkgs;
       []
       ++ (lib.optionals cfg.hardware.logitech [piper]);
+
+    services.sunshine = lib.mkIf cfg.sunshine.enable {
+      enable = true;
+      autoStart = true;
+      capSysAdmin = true;
+      openFirewall = true;
+      package = pkgs.sunshine.override {
+        cudaSupport = true;
+      };
+    };
   };
 }
