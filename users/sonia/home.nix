@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ../../home/coding
+    ../../home/desktop/noctalia
     ../../home/gaming
     ../../home/office
     ../../home/persistence

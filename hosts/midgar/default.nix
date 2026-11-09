@@ -7,6 +7,7 @@
     ./hardware.nix
     ./disks.nix
     ../../hardware/graphics/nvidia
+    ../../modules/desktop/noctalia
     ../../modules/gaming
     ../../modules/obs-studio
     ../../modules/secureboot
@@ -24,6 +25,16 @@
     enable = true;
     open = true;
     useBinaryCache = true;
+  };
+
+  modules.desktop.noctalia = {
+    enable = true;
+    compositor = "labwc";
+
+    greeter = {
+      enable = true;
+      compositors = ["labwc"];
+    };
   };
 
   modules.gaming = {
@@ -91,6 +102,12 @@
       vkbasalt.enable = true;
     };
 
+    modules.home.desktop.noctalia = {
+      enable = true;
+      compositors = ["labwc"];
+      keyboardLayout = "it";
+    };
+
     modules.home.persistence = {
       enable = true;
       path = "/persist";
@@ -100,30 +117,7 @@
   services.xserver.enable = true;
   services.xserver.xkb.layout = "it";
 
-  services.displayManager = {
-    gdm.enable = true;
-    autoLogin = {
-      enable = true;
-      user = "francesco";
-    };
-  };
-
-  services.desktopManager.gnome.enable = true;
-
-  systemd.user.services.lock-after-autologin = {
-    description = "Lock GNOME screen immediately after autologin";
-    wantedBy = ["graphical-session.target"];
-    after = ["graphical-session.target"];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStartPre = "${pkgs.coreutils}/bin/sleep 1.5";
-      ExecStart = "${pkgs.dbus}/bin/dbus-send --type=method_call --dest=org.gnome.ScreenSaver /org/gnome/ScreenSaver org.gnome.ScreenSaver.Lock";
-    };
-  };
-
   hardware.uinput.enable = true;
-
-  environment.systemPackages = [pkgs.gnome-randr];
 
   security.rtkit.enable = true;
   services.pipewire = {

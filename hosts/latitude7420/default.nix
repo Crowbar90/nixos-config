@@ -81,12 +81,13 @@
   '';
 
   modules.desktop.noctalia.enable = true;
+
+  # TLP manages power on this laptop; power-profiles-daemon would conflict.
+  programs.noctalia.recommendedServices.enable = false;
+
   modules.desktop.noctalia.greeter = {
     enable = true;
-    users = {
-      francesco = "niri";
-      sonia = "labwc";
-    };
+    compositors = ["niri" "labwc"];
     settings = {
       output = {
         width = 1920;
@@ -122,16 +123,9 @@
     epson-escpr2.enable = true;
   };
 
-  programs.xwayland.enable = true;
-  security.polkit.enable = true;
-
   users.users.francesco.extraGroups = ["gamemode"];
 
   home-manager.users.francesco = {
-    imports = [
-      ../../home/desktop/noctalia
-    ];
-
     modules.home.coding = {
       enable = true;
       dotnet.enable = true;
@@ -165,7 +159,7 @@
 
     modules.home.desktop.noctalia = {
       enable = true;
-      compositor = "niri";
+      compositors = ["niri" "labwc"];
       terminal = "kitty";
       launcher = "fuzzel";
       screen-locker = "swaylock";
@@ -175,7 +169,7 @@
       file-manager = "nemo";
     };
 
-    xdg.configFile."niri/config.kdl".text = lib.mkAfter ''
+    wayland.windowManager.niri.extraConfig = lib.mkAfter ''
       output "eDP-1" {
           mode "1920x1080@60"
           scale 1.0
@@ -188,10 +182,6 @@
   };
 
   home-manager.users.sonia = {
-    imports = [
-      ../../home/desktop/noctalia
-    ];
-
     modules.home.coding = {
       enable = false;
     };
@@ -217,7 +207,7 @@
 
     modules.home.desktop.noctalia = {
       enable = true;
-      compositor = "labwc";
+      compositors = ["niri" "labwc"];
       terminal = "kitty";
       launcher = "fuzzel";
       screen-locker = "swaylock";
@@ -226,6 +216,13 @@
       wallpaper = "swaybg";
       file-manager = "nemo";
     };
+
+    wayland.windowManager.niri.extraConfig = lib.mkAfter ''
+      output "eDP-1" {
+          mode "1920x1080@60"
+          scale 1.0
+      }
+    '';
   };
 
   security.rtkit.enable = true;
@@ -235,11 +232,6 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
-  };
-
-  services.udisks2 = {
-    enable = true;
-    mountOnMedia = true;
   };
 
   hardware.ckb-next.enable = true;

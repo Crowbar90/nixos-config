@@ -2,21 +2,23 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }: let
   cfg = config.modules.home.desktop.noctalia;
 in {
-  imports = [
-    inputs.labwc-manager.homeManagerModule
-  ];
-
   options.modules.home.desktop.noctalia = {
     enable = lib.mkEnableOption "Noctalia desktop shell";
 
-    compositor = lib.mkOption {
-      type = lib.types.enum ["niri" "labwc"];
-      default = "niri";
+    compositors = lib.mkOption {
+      type = lib.types.listOf (lib.types.enum ["niri" "labwc"]);
+      default = ["niri"];
+      description = "Compositors configured for this user; all listed compositors are enabled together.";
+    };
+
+    keyboardLayout = lib.mkOption {
+      type = lib.types.str;
+      default = "it";
+      description = "XKB keyboard layout used by the compositor.";
     };
 
     terminal = lib.mkOption {
@@ -56,138 +58,143 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    programs.labwc = lib.mkIf (cfg.compositor == "labwc") {
+    wayland.windowManager.labwc = lib.mkIf (builtins.elem "labwc" cfg.compositors) {
       enable = true;
+      package = null;
 
-      config.core.gap = 10;
+      environment = [
+        "XKB_DEFAULT_LAYOUT=${cfg.keyboardLayout}"
+      ];
 
-      config.windowSwitcher = {
-        preview = false;
-        outlines = true;
+      rc = {
+        core.gap = 10;
+
+        windowSwitcher = {
+          preview = "no";
+          outlines = "yes";
+        };
+
+        keyboard = {
+          default = true;
+          keybind = [
+            {
+              "@key" = "W-space";
+              action = {
+                "@name" = "Execute";
+                "@command" = "noctalia msg panel-toggle launcher";
+              };
+            }
+            {
+              "@key" = "W-s";
+              action = {
+                "@name" = "Execute";
+                "@command" = "noctalia msg panel-toggle control-center";
+              };
+            }
+            {
+              "@key" = "W-,";
+              action = {
+                "@name" = "Execute";
+                "@command" = "noctalia msg settings-toggle";
+              };
+            }
+            {
+              "@key" = "W-Return";
+              action = {
+                "@name" = "Execute";
+                "@command" = cfg.terminal;
+              };
+            }
+            {
+              "@key" = "W-d";
+              action = {
+                "@name" = "Execute";
+                "@command" = cfg.launcher;
+              };
+            }
+            {
+              "@key" = "W-l";
+              action = {
+                "@name" = "Execute";
+                "@command" = cfg.screen-locker;
+              };
+            }
+            {
+              "@key" = "XF86AudioRaiseVolume";
+              action = {
+                "@name" = "Execute";
+                "@command" = "noctalia msg volume-up";
+              };
+            }
+            {
+              "@key" = "XF86AudioLowerVolume";
+              action = {
+                "@name" = "Execute";
+                "@command" = "noctalia msg volume-down";
+              };
+            }
+            {
+              "@key" = "XF86AudioMute";
+              action = {
+                "@name" = "Execute";
+                "@command" = "noctalia msg volume-mute";
+              };
+            }
+            {
+              "@key" = "XF86MonBrightnessUp";
+              action = {
+                "@name" = "Execute";
+                "@command" = "noctalia msg brightness-up";
+              };
+            }
+            {
+              "@key" = "XF86MonBrightnessDown";
+              action = {
+                "@name" = "Execute";
+                "@command" = "noctalia msg brightness-down";
+              };
+            }
+          ];
+        };
       };
+    };
 
-      config.keyboard = {
-        default = true;
-        keybinds = [
-          {
-            key = "W-space";
-            actions = [
-              {
-                name = "Execute";
-                command = "noctalia msg panel-toggle launcher";
-              }
-            ];
-          }
-          {
-            key = "W-s";
-            actions = [
-              {
-                name = "Execute";
-                command = "noctalia msg panel-toggle control-center";
-              }
-            ];
-          }
-          {
-            key = "W-,";
-            actions = [
-              {
-                name = "Execute";
-                command = "noctalia msg settings-toggle";
-              }
-            ];
-          }
-          {
-            key = "XF86AudioRaiseVolume";
-            actions = [
-              {
-                name = "Execute";
-                command = "noctalia msg volume-up";
-              }
-            ];
-          }
-          {
-            key = "XF86AudioLowerVolume";
-            actions = [
-              {
-                name = "Execute";
-                command = "noctalia msg volume-down";
-              }
-            ];
-          }
-          {
-            key = "XF86AudioMute";
-            actions = [
-              {
-                name = "Execute";
-                command = "noctalia msg volume-mute";
-              }
-            ];
-          }
-          {
-            key = "XF86MonBrightnessUp";
-            actions = [
-              {
-                name = "Execute";
-                command = "noctalia msg brightness-up";
-              }
-            ];
-          }
-          {
-            key = "XF86MonBrightnessDown";
-            actions = [
-              {
-                name = "Execute";
-                command = "noctalia msg brightness-down";
-              }
-            ];
-          }
-        ];
+    wayland.windowManager.niri = lib.mkIf (builtins.elem "niri" cfg.compositors) {
+      enable = true;
+      package = null;
+      systemd.enable = false;
+      portalPackage = null;
+
+      settings = {
+        input = {
+          keyboard.xkb.layout = cfg.keyboardLayout;
+          touchpad = {
+            tap = {};
+            natural-scroll = {};
+          };
+        };
+
+        hotkey-overlay.skip-at-startup = {};
+
+        binds = {
+          "Mod+T".spawn = [cfg.terminal];
+          "Mod+O".show-hotkey-overlay = {};
+          "Mod+D".spawn = [cfg.launcher];
+          "Mod+L".spawn = [cfg.screen-locker];
+          "Mod+F".maximize-column = {};
+          "Mod+Shift+F".fullscreen-window = {};
+        };
+
+        window-rule = {
+          geometry-corner-radius = 8.0;
+          clip-to-geometry = true;
+        };
+
+        debug.honor-xdg-activation-with-invalid-serial = {};
       };
-
-      autostart = ["noctalia"];
     };
 
     xdg = lib.mkIf (cfg.file-manager == "nemo") {
-      configFile."niri/config.kdl" = lib.mkIf (cfg.compositor == "niri") {
-        text = ''
-          input {
-              keyboard {
-                  xkb {
-                      layout "it"
-                  }
-              }
-              touchpad {
-                  tap
-                  natural-scroll
-              }
-          }
-
-          hotkey-overlay {
-              skip-at-startup
-          }
-
-          binds {
-              "Mod+T" { spawn "${cfg.terminal}"; }
-              "Mod+O" { show-hotkey-overlay; }
-              "Mod+D" { spawn "${cfg.launcher}"; }
-              "Mod+L" { spawn "${cfg.screen-locker}"; }
-              "Mod+F" { maximize-column; }
-              "Mod+Shift+F" { fullscreen-window; }
-          }
-
-          spawn-at-startup "noctalia"
-
-          window-rule {
-              geometry-corner-radius 8.0
-              clip-to-geometry true
-          }
-
-          debug {
-              honor-xdg-activation-with-invalid-serial
-          }
-        '';
-      };
-
       desktopEntries.nemo = {
         name = "Nemo";
         exec = "${pkgs.nemo-with-extensions}/bin/nemo";
@@ -213,10 +220,7 @@ in {
     services.polkit-gnome.enable = true;
 
     home.packages = with pkgs;
-      [
-        xwayland-satellite
-        noctalia
-      ]
-      ++ (lib.optionals (cfg.wallpaper == "swaybg") [swaybg]);
+      lib.optionals (cfg.file-manager == "nemo") [nemo-with-extensions]
+      ++ lib.optionals (cfg.wallpaper == "swaybg") [swaybg];
   };
 }

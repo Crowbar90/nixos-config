@@ -41,9 +41,13 @@
   hardware.enableRedistributableFirmware = true;
 
   modules.desktop.noctalia.enable = true;
+
+  # TLP manages power on this laptop; power-profiles-daemon would conflict.
+  programs.noctalia.recommendedServices.enable = false;
+
   modules.desktop.noctalia.greeter = {
     enable = true;
-    users.francesco = "niri";
+    compositors = ["niri"];
     settings.output = {
       width = 3200;
       height = 1800;
@@ -56,10 +60,6 @@
   users.users.francesco.extraGroups = ["gamemode"];
 
   home-manager.users.francesco = {
-    imports = [
-      ../../home/desktop/noctalia
-    ];
-
     modules.home.coding = {
       enable = true;
       github.enable = true;
@@ -74,7 +74,7 @@
       path = "/persist";
     };
 
-    xdg.configFile."niri/config.kdl".text = lib.mkAfter ''
+    wayland.windowManager.niri.extraConfig = lib.mkAfter ''
       output "eDP-1" {
           mode "3200x1800@60"
           scale 1.5
