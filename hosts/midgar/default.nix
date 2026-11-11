@@ -114,6 +114,7 @@
         {
           name = "DP-2";
           mode = "1920x1200";
+          primary = true;
           position = {
             x = 0;
             y = 360;

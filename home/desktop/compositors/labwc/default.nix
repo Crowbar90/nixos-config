@@ -18,6 +18,10 @@
       " --pos ${toString output.position.x},${toString output.position.y}"
       + lib.optionalString (output.scale != null) " --scale ${toString output.scale}"
       + lib.optionalString (output.transform != null) " --transform ${output.transform}";
+
+  primaryOutputs = lib.filter (output: output.enable && output.primary) desktop.outputs;
+
+  primaryCommand = output: "xrandr --output '${output.name}' --primary";
 in {
   options.modules.home.desktop.compositors.labwc.enable =
     lib.mkEnableOption "labwc for this user";
@@ -31,7 +35,7 @@ in {
         "XKB_DEFAULT_LAYOUT=${desktop.keyboard.layout}"
       ];
 
-      autostart = map outputCommand desktop.outputs;
+      autostart = map outputCommand desktop.outputs ++ map primaryCommand primaryOutputs;
 
       rc = {
         core.gap = 10;
@@ -70,7 +74,9 @@ in {
       };
     };
 
-    home.packages = lib.optionals (desktop.outputs != []) [pkgs.wlr-randr];
+    home.packages =
+      lib.optionals (desktop.outputs != []) [pkgs.wlr-randr]
+      ++ lib.optionals (primaryOutputs != []) [pkgs.xorg.xrandr];
 
     systemd.user.targets.labwc-session = {
       Unit.PropagatesStopTo = ["graphical-session.target"];

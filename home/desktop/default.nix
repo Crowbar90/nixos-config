@@ -12,6 +12,16 @@
         description = "Whether this output is enabled.";
       };
 
+      primary = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = ''
+          Mark this output as the XRandR primary monitor. XWayland clients
+          (including Steam/Proton games) use it as monitor 0; Wayland clients
+          ignore it.
+        '';
+      };
+
       mode = lib.mkOption {
         type = lib.types.nullOr lib.types.str;
         default = null;
