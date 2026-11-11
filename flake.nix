@@ -20,10 +20,6 @@
       url = "github:nix-community/lanzaboote/v1.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    labwc-manager = {
-      url = "github:JaydenPahukula/labwc-manager";
-    };
   };
 
   outputs = inputs @ {

@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ../../home/coding
+    ../../home/desktop
     ../../home/gaming
     ../../home/office
     ../../home/persistence
@@ -25,6 +26,24 @@
     enable = true;
     darktable.enable = true;
     gimp.enable = true;
+  };
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+
+    oh-my-zsh = {
+      enable = true;
+      plugins = [
+        "battery"
+        "gh"
+        "git"
+      ];
+      theme = "robbyrussell";
+    };
   };
 
   home.stateVersion = "25.11";

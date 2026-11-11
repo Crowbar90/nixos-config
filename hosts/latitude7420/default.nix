@@ -13,7 +13,7 @@
     ../../modules/obs-studio
     ../../modules/printing
     ../../modules/virtualisation
-    ../../modules/desktop/noctalia
+    ../../modules/desktop
     ../../shares/tower
     ../../users/francesco/nixos.nix
     ../../users/sonia/nixos.nix
@@ -80,21 +80,29 @@
     options v4l2loopback devices=1 video_nr=10 card_label="OBS Virtual Camera" exclusive_caps=1
   '';
 
-  modules.desktop.noctalia.enable = true;
-  modules.desktop.noctalia.greeter = {
-    enable = true;
-    users = {
-      francesco = "niri";
-      sonia = "labwc";
+  modules.desktop = {
+    compositors = {
+      niri.enable = true;
+      labwc.enable = true;
     };
-    settings = {
-      output = {
-        width = 1920;
-        height = 1080;
-        scale = 1;
-      };
-      default_session = {
-        user = "francesco";
+
+    shells.noctalia = {
+      enable = true;
+      # TLP manages power on this laptop; power-profiles-daemon would conflict.
+      recommendedServices = false;
+    };
+
+    greeter = {
+      enable = true;
+      defaultSession = "niri";
+      keyboard.layout = "it";
+      settings = {
+        user.default = "francesco";
+        output = {
+          width = 1920;
+          height = 1080;
+          scale = 1;
+        };
       };
     };
   };
@@ -122,16 +130,10 @@
     epson-escpr2.enable = true;
   };
 
-  programs.xwayland.enable = true;
-  security.polkit.enable = true;
-
   users.users.francesco.extraGroups = ["gamemode"];
+  users.users.francesco.shell = pkgs.zsh;
 
   home-manager.users.francesco = {
-    imports = [
-      ../../home/desktop/noctalia
-    ];
-
     modules.home.coding = {
       enable = true;
       dotnet.enable = true;
@@ -163,24 +165,23 @@
       path = "/persist";
     };
 
-    modules.home.desktop.noctalia = {
-      enable = true;
-      compositor = "niri";
-      terminal = "kitty";
-      launcher = "fuzzel";
-      screen-locker = "swaylock";
-      notification-daemon = "mako";
-      idle-management-daemon = "swayidle";
-      wallpaper = "swaybg";
-      file-manager = "nemo";
-    };
+    modules.home.desktop = {
+      keyboard.layout = "it";
+      apps.enable = true;
+      compositors = {
+        niri.enable = true;
+        labwc.enable = true;
+      };
+      shells.noctalia.enable = true;
 
-    xdg.configFile."niri/config.kdl".text = lib.mkAfter ''
-      output "eDP-1" {
-          mode "1920x1080@60"
-          scale 1.0
-      }
-    '';
+      outputs = [
+        {
+          name = "eDP-1";
+          mode = "1920x1080";
+          scale = 1.0;
+        }
+      ];
+    };
 
     home.packages = with pkgs; [
       calibre
@@ -188,10 +189,6 @@
   };
 
   home-manager.users.sonia = {
-    imports = [
-      ../../home/desktop/noctalia
-    ];
-
     modules.home.coding = {
       enable = false;
     };
@@ -215,16 +212,22 @@
       path = "/persist";
     };
 
-    modules.home.desktop.noctalia = {
-      enable = true;
-      compositor = "labwc";
-      terminal = "kitty";
-      launcher = "fuzzel";
-      screen-locker = "swaylock";
-      notification-daemon = "mako";
-      idle-management-daemon = "swayidle";
-      wallpaper = "swaybg";
-      file-manager = "nemo";
+    modules.home.desktop = {
+      keyboard.layout = "it";
+      apps.enable = true;
+      compositors = {
+        niri.enable = true;
+        labwc.enable = true;
+      };
+      shells.noctalia.enable = true;
+
+      outputs = [
+        {
+          name = "eDP-1";
+          mode = "1920x1080";
+          scale = 1.0;
+        }
+      ];
     };
   };
 
@@ -237,14 +240,11 @@
     jack.enable = true;
   };
 
-  services.udisks2 = {
-    enable = true;
-    mountOnMedia = true;
-  };
-
   hardware.ckb-next.enable = true;
 
   programs.nix-ld.enable = true;
+
+  programs.zsh.enable = true;
 
   boot.supportedFilesystems = ["nfs"];
 

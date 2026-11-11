@@ -7,6 +7,7 @@
     ./hardware.nix
     ./disks.nix
     ../../hardware/graphics/nvidia
+    ../../modules/desktop
     ../../modules/gaming
     ../../modules/obs-studio
     ../../modules/secureboot
@@ -24,6 +25,17 @@
     enable = true;
     open = true;
     useBinaryCache = true;
+  };
+
+  modules.desktop = {
+    compositors.labwc.enable = true;
+    shells.noctalia.enable = true;
+
+    greeter = {
+      enable = true;
+      defaultSession = "labwc";
+      keyboard.layout = "it";
+    };
   };
 
   modules.gaming = {
@@ -70,6 +82,7 @@
   hardware.enableRedistributableFirmware = true;
 
   users.users.francesco.extraGroups = ["gamemode" "podman" "docker" "video" "uinput"];
+  users.users.francesco.shell = pkgs.zsh;
 
   home-manager.users.francesco = {
     modules.home.coding = {
@@ -91,6 +104,33 @@
       vkbasalt.enable = true;
     };
 
+    modules.home.desktop = {
+      keyboard.layout = "it";
+      apps.enable = true;
+      compositors.labwc.enable = true;
+      shells.noctalia.enable = true;
+
+      outputs = [
+        {
+          name = "DP-2";
+          mode = "1920x1200";
+          position = {
+            x = 0;
+            y = 360;
+          };
+        }
+        {
+          name = "HDMI-A-1";
+          mode = "1920x1200";
+          position = {
+            x = 1920;
+            y = 0;
+          };
+          transform = "90";
+        }
+      ];
+    };
+
     modules.home.persistence = {
       enable = true;
       path = "/persist";
@@ -100,30 +140,7 @@
   services.xserver.enable = true;
   services.xserver.xkb.layout = "it";
 
-  services.displayManager = {
-    gdm.enable = true;
-    autoLogin = {
-      enable = true;
-      user = "francesco";
-    };
-  };
-
-  services.desktopManager.gnome.enable = true;
-
-  systemd.user.services.lock-after-autologin = {
-    description = "Lock GNOME screen immediately after autologin";
-    wantedBy = ["graphical-session.target"];
-    after = ["graphical-session.target"];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStartPre = "${pkgs.coreutils}/bin/sleep 1.5";
-      ExecStart = "${pkgs.dbus}/bin/dbus-send --type=method_call --dest=org.gnome.ScreenSaver /org/gnome/ScreenSaver org.gnome.ScreenSaver.Lock";
-    };
-  };
-
   hardware.uinput.enable = true;
-
-  environment.systemPackages = [pkgs.gnome-randr];
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -144,6 +161,8 @@
   };
 
   programs.nix-ld.enable = true;
+
+  programs.zsh.enable = true;
 
   boot.supportedFilesystems = ["nfs"];
 
