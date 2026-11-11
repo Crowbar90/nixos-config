@@ -7,7 +7,7 @@
     ./hardware.nix
     ./disks.nix
     ../../hardware/graphics/nvidia
-    ../../modules/desktop/noctalia
+    ../../modules/desktop
     ../../modules/gaming
     ../../modules/obs-studio
     ../../modules/secureboot
@@ -27,13 +27,14 @@
     useBinaryCache = true;
   };
 
-  modules.desktop.noctalia = {
-    enable = true;
-    compositor = "labwc";
+  modules.desktop = {
+    compositors.labwc.enable = true;
+    shells.noctalia.enable = true;
 
     greeter = {
       enable = true;
-      compositors = ["labwc"];
+      defaultSession = "labwc";
+      keyboard.layout = "it";
     };
   };
 
@@ -103,20 +104,28 @@
       vkbasalt.enable = true;
     };
 
-    modules.home.desktop.noctalia = {
-      enable = true;
-      compositors = ["labwc"];
-      keyboardLayout = "it";
+    modules.home.desktop = {
+      keyboard.layout = "it";
+      apps.enable = true;
+      compositors.labwc.enable = true;
+      shells.noctalia.enable = true;
+
       outputs = [
         {
           name = "DP-2";
           mode = "1920x1200";
-          position = "0,360";
+          position = {
+            x = 0;
+            y = 360;
+          };
         }
         {
           name = "HDMI-A-1";
           mode = "1920x1200";
-          position = "1920,0";
+          position = {
+            x = 1920;
+            y = 0;
+          };
           transform = "90";
         }
       ];

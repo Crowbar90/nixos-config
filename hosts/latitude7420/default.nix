@@ -13,7 +13,7 @@
     ../../modules/obs-studio
     ../../modules/printing
     ../../modules/virtualisation
-    ../../modules/desktop/noctalia
+    ../../modules/desktop
     ../../shares/tower
     ../../users/francesco/nixos.nix
     ../../users/sonia/nixos.nix
@@ -80,22 +80,29 @@
     options v4l2loopback devices=1 video_nr=10 card_label="OBS Virtual Camera" exclusive_caps=1
   '';
 
-  modules.desktop.noctalia.enable = true;
+  modules.desktop = {
+    compositors = {
+      niri.enable = true;
+      labwc.enable = true;
+    };
 
-  # TLP manages power on this laptop; power-profiles-daemon would conflict.
-  programs.noctalia.recommendedServices.enable = false;
+    shells.noctalia = {
+      enable = true;
+      # TLP manages power on this laptop; power-profiles-daemon would conflict.
+      recommendedServices = false;
+    };
 
-  modules.desktop.noctalia.greeter = {
-    enable = true;
-    compositors = ["niri" "labwc"];
-    settings = {
-      output = {
-        width = 1920;
-        height = 1080;
-        scale = 1;
-      };
-      default_session = {
-        user = "francesco";
+    greeter = {
+      enable = true;
+      defaultSession = "niri";
+      keyboard.layout = "it";
+      settings = {
+        user.default = "francesco";
+        output = {
+          width = 1920;
+          height = 1080;
+          scale = 1;
+        };
       };
     };
   };
@@ -158,24 +165,23 @@
       path = "/persist";
     };
 
-    modules.home.desktop.noctalia = {
-      enable = true;
-      compositors = ["niri" "labwc"];
-      terminal = "kitty";
-      launcher = "fuzzel";
-      screen-locker = "swaylock";
-      notification-daemon = "mako";
-      idle-management-daemon = "swayidle";
-      wallpaper = "swaybg";
-      file-manager = "nemo";
-    };
+    modules.home.desktop = {
+      keyboard.layout = "it";
+      apps.enable = true;
+      compositors = {
+        niri.enable = true;
+        labwc.enable = true;
+      };
+      shells.noctalia.enable = true;
 
-    wayland.windowManager.niri.extraConfig = lib.mkAfter ''
-      output "eDP-1" {
-          mode "1920x1080@60"
-          scale 1.0
-      }
-    '';
+      outputs = [
+        {
+          name = "eDP-1";
+          mode = "1920x1080";
+          scale = 1.0;
+        }
+      ];
+    };
 
     home.packages = with pkgs; [
       calibre
@@ -206,24 +212,23 @@
       path = "/persist";
     };
 
-    modules.home.desktop.noctalia = {
-      enable = true;
-      compositors = ["niri" "labwc"];
-      terminal = "kitty";
-      launcher = "fuzzel";
-      screen-locker = "swaylock";
-      notification-daemon = "mako";
-      idle-management-daemon = "swayidle";
-      wallpaper = "swaybg";
-      file-manager = "nemo";
-    };
+    modules.home.desktop = {
+      keyboard.layout = "it";
+      apps.enable = true;
+      compositors = {
+        niri.enable = true;
+        labwc.enable = true;
+      };
+      shells.noctalia.enable = true;
 
-    wayland.windowManager.niri.extraConfig = lib.mkAfter ''
-      output "eDP-1" {
-          mode "1920x1080@60"
-          scale 1.0
-      }
-    '';
+      outputs = [
+        {
+          name = "eDP-1";
+          mode = "1920x1080";
+          scale = 1.0;
+        }
+      ];
+    };
   };
 
   security.rtkit.enable = true;

@@ -11,7 +11,7 @@
     ../../modules/laptop
     ../../modules/gaming
     ../../modules/obs-studio
-    ../../modules/desktop/noctalia
+    ../../modules/desktop
     ../../users/francesco/nixos.nix
   ];
 
@@ -40,18 +40,24 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  modules.desktop.noctalia.enable = true;
+  modules.desktop = {
+    compositors.niri.enable = true;
 
-  # TLP manages power on this laptop; power-profiles-daemon would conflict.
-  programs.noctalia.recommendedServices.enable = false;
+    shells.noctalia = {
+      enable = true;
+      # TLP manages power on this laptop; power-profiles-daemon would conflict.
+      recommendedServices = false;
+    };
 
-  modules.desktop.noctalia.greeter = {
-    enable = true;
-    compositors = ["niri"];
-    settings.output = {
-      width = 3200;
-      height = 1800;
-      scale = 1.5;
+    greeter = {
+      enable = true;
+      defaultSession = "niri";
+      keyboard.layout = "it";
+      settings.output = {
+        width = 3200;
+        height = 1800;
+        scale = 1.5;
+      };
     };
   };
 
@@ -67,19 +73,25 @@
       opencode.enable = true;
     };
 
-    modules.home.desktop.noctalia.enable = true;
+    modules.home.desktop = {
+      keyboard.layout = "it";
+      apps.enable = true;
+      compositors.niri.enable = true;
+      shells.noctalia.enable = true;
+
+      outputs = [
+        {
+          name = "eDP-1";
+          mode = "3200x1800";
+          scale = 1.5;
+        }
+      ];
+    };
 
     modules.home.persistence = {
       enable = true;
       path = "/persist";
     };
-
-    wayland.windowManager.niri.extraConfig = lib.mkAfter ''
-      output "eDP-1" {
-          mode "3200x1800@60"
-          scale 1.5
-      }
-    '';
   };
 
   security.rtkit.enable = true;
