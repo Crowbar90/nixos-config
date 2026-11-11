@@ -107,6 +107,19 @@
       enable = true;
       compositors = ["labwc"];
       keyboardLayout = "it";
+      outputs = [
+        {
+          name = "DP-2";
+          mode = "1920x1200";
+          position = "0,360";
+        }
+        {
+          name = "HDMI-A-1";
+          mode = "1920x1200";
+          position = "1920,0";
+          transform = "90";
+        }
+      ];
     };
 
     modules.home.persistence = {

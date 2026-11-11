@@ -21,6 +21,60 @@ in {
       description = "XKB keyboard layout used by the compositor.";
     };
 
+    outputs = lib.mkOption {
+      type = lib.types.listOf (lib.types.submodule {
+        options = {
+          name = lib.mkOption {
+            type = lib.types.str;
+            description = "Output connector name, e.g. DP-2 or HDMI-1.";
+          };
+
+          enable = lib.mkOption {
+            type = lib.types.bool;
+            default = true;
+            description = "Whether to enable this output.";
+          };
+
+          mode = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            example = "1920x1200@60Hz";
+            description = "Output mode as <width>x<height>[@<rate>[Hz]].";
+          };
+
+          position = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            example = "1920,0";
+            description = "Position of the output in the global coordinate space.";
+          };
+
+          scale = lib.mkOption {
+            type = lib.types.nullOr lib.types.float;
+            default = null;
+            description = "Output scale factor.";
+          };
+
+          transform = lib.mkOption {
+            type = lib.types.nullOr (lib.types.enum [
+              "normal"
+              "90"
+              "180"
+              "270"
+              "flipped"
+              "flipped-90"
+              "flipped-180"
+              "flipped-270"
+            ]);
+            default = null;
+            description = "Output rotation/transform.";
+          };
+        };
+      });
+      default = [];
+      description = "Output layout applied through kanshi when non-empty.";
+    };
+
     terminal = lib.mkOption {
       type = lib.types.enum ["kitty"];
       default = "kitty";
@@ -219,8 +273,33 @@ in {
     services.swayidle.enable = lib.mkIf (cfg.idle-management-daemon == "swayidle") true;
     services.polkit-gnome.enable = true;
 
+    services.kanshi = lib.mkIf (cfg.outputs != []) {
+      enable = true;
+      settings = [
+        {
+          profile = {
+            name = "noctalia";
+            outputs =
+              map (output: {
+                criteria = output.name;
+                status =
+                  if output.enable
+                  then "enable"
+                  else "disable";
+                inherit (output) mode position scale transform;
+              })
+              cfg.outputs;
+          };
+        }
+      ];
+    };
+
     home.packages = with pkgs;
       lib.optionals (cfg.file-manager == "nemo") [nemo-with-extensions]
       ++ lib.optionals (cfg.wallpaper == "swaybg") [swaybg];
+
+    systemd.user.targets.labwc-session = lib.mkIf (builtins.elem "labwc" cfg.compositors) {
+      Unit.PropagatesStopTo = ["graphical-session.target"];
+    };
   };
 }
