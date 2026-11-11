@@ -81,6 +81,7 @@
   hardware.enableRedistributableFirmware = true;
 
   users.users.francesco.extraGroups = ["gamemode" "podman" "docker" "video" "uinput"];
+  users.users.francesco.shell = pkgs.zsh;
 
   home-manager.users.francesco = {
     modules.home.coding = {

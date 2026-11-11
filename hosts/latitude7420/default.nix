@@ -124,6 +124,7 @@
   };
 
   users.users.francesco.extraGroups = ["gamemode"];
+  users.users.francesco.shell = pkgs.zsh;
 
   home-manager.users.francesco = {
     modules.home.coding = {
@@ -237,6 +238,8 @@
   hardware.ckb-next.enable = true;
 
   programs.nix-ld.enable = true;
+
+  programs.zsh.enable = true;
 
   boot.supportedFilesystems = ["nfs"];
 

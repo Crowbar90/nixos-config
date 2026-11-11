@@ -28,5 +28,23 @@
     gimp.enable = true;
   };
 
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+
+    oh-my-zsh = {
+      enable = true;
+      plugins = [
+        "battery"
+        "gh"
+        "git"
+      ];
+      theme = "robbyrussell";
+    };
+  };
+
   home.stateVersion = "25.11";
 }
