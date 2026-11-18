@@ -47,6 +47,8 @@
     sunshine.enable = true;
   };
 
+  services.sunshine.settings.output_name = "DP-2";
+
   modules.obs-studio.enable = true;
 
   modules.users.francesco.enable = true;

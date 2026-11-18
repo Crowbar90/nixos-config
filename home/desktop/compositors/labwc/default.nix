@@ -38,7 +38,13 @@ in {
       autostart = map outputCommand desktop.outputs ++ map primaryCommand primaryOutputs;
 
       rc = {
-        core.gap = 10;
+        core =
+          {
+            gap = 10;
+          }
+          // lib.optionalAttrs (primaryOutputs != []) {
+            xwaylandPersistence = "yes";
+          };
 
         windowSwitcher = {
           preview = "no";
