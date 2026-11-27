@@ -107,6 +107,10 @@
     };
   };
 
+  services.logind.settings.Login.HandleLidSwitch = "suspend-then-hibernate";
+  systemd.sleep.settings.Sleep.HibernateDelaySec = "30min";
+  services.upower.criticalPowerAction = "Hibernate";
+
   modules.gaming = {
     enable = true;
     steam.enable = true;
